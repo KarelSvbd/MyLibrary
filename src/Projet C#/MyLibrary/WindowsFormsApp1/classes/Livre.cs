@@ -5,6 +5,7 @@
         #region Variables d'instances
         private int _idLivre, _idUtilisateur;
         private string _titre, _auteur, _nomImage;
+        private ClientRest _clientRest;
         #endregion
 
         #region Propriétés
@@ -41,11 +42,18 @@
 
         public Livre(int idLivre, string titre, string auteur, string nomImage, int idUtilisateur)
         {
-            _idLivre=idLivre;
+            _clientRest = ClientRest.Instance;
+            _idLivre =idLivre;
             _titre=titre;
             _auteur=auteur;
             _nomImage=nomImage;
             _idUtilisateur=idUtilisateur;
+        }
+
+        public void PostLivre(Utilisateur utilisateur)
+        {
+            _clientRest.AppelSimple("?email="+utilisateur.Email+"&password="+utilisateur.Password+"&titre="+_titre+"&auteur="+_auteur+"&nomImage="+_nomImage+"", "POST");
+            //Messagebox _clientRest.ApiRequest("", "POST");
         }
     }
 }

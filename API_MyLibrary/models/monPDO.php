@@ -16,6 +16,9 @@ class MyLibrary
 
     private $_retourUtilisateurParEmailPassword = null;
     private $_retourUtilisateurParEmail = null;
+    private $_connexionUtilisateur = null;
+    private $_deconnexionUtilisateur = null;
+    private $_statusConnexionUtilisateur = null;
 
     //	Constructeur privé, crée l'instance de PDO qui sera sollicitée
     //	pour toutes les méthodes de la classe
@@ -27,6 +30,7 @@ class MyLibrary
                 PDO::ATTR_PERSISTENT => true
             ));
 
+            //Prepare statements
             $sql = "SELECT * FROM Utilisateurs WHERE email=:email AND password=:password";
             $this->_retourUtilisateurParEmailPassword = $this->_unPdo->prepare($sql);
             $this->_retourUtilisateurParEmailPassword->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
@@ -34,11 +38,31 @@ class MyLibrary
             $sql = "SELECT * FROM Utilisateurs WHERE email=:email";
             $this->_retourUtilisateurParEmail = $this->_unPdo->prepare($sql);
             $this->_retourUtilisateurParEmail->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
+
+            $sql = "UPDATE Utilisateurs SET connecte=1 WHERE idUtilisateur=:idUtilisateur;";
+            $this->_connexionUtilisateur = $this->_unPdo->prepare($sql);
+            $this->_connexionUtilisateur->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
+
+            $sql = "UPDATE Utilisateurs SET connecte=0 WHERE idUtilisateur=:idUtilisateur;";
+            $this->_deconnexionUtilisateur = $this->_unPdo->prepare($sql);
+            $this->_deconnexionUtilisateur->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
+
+            $sql = "SELECT connecte FROM Utilisateurs WHERE email=:email";
+            $this->_statusConnexionUtilisateur = $this->_unPdo->prepare($sql);
+            $this->_statusConnexionUtilisateur->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
         }
         catch (PDOException $e) {
             print "Erreur !: " . $e->getMessage() . "<br>";
             die();
         }
+    }
+
+    public function connexionUtilisateur(Utilisateur $utilisateur){
+        $this->_connexionUtilisateur->execute(array(':idUtilisateur' => $utilisateur->getIdUtilisateur()));
+    }
+
+    public function deconnexionUtilisateur(Utilisateur $utilisateur){
+        $this->_deconnexionUtilisateur->execute(array(':idUtilisateur' => $utilisateur->getIdUtilisateur()));
     }
 
     public function testConnexion(Utilisateur $utilisateur){
@@ -49,7 +73,13 @@ class MyLibrary
     public function recevoirUtilisateurParEmail(string $email){
         $this->_retourUtilisateurParEmail->execute(array(':email' => $email));
         $resultat = $this->_retourUtilisateurParEmail->fetchAll();
-        return new Utilisateur($resultat[0][0], $resultat[0][1], $resultat[0][2]);
+        return new Utilisateur($resultat[0][0], $resultat[0][1], $resultat[0][2], $resultat[0][3]);
+    }
+
+    public function statusConnexionUtilisateur(string $email){
+        $this->_statusConnexionUtilisateur->execute(array(':email' => $email));
+        $resultat = $this->_statusConnexionUtilisateur->fetchAll();
+        return $resultat[0][0];
     }
 
     public function __destruct()

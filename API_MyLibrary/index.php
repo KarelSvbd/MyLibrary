@@ -3,16 +3,13 @@
     Auteur  : Svoboda Karel Vilém
     Desc.   : API qui permet de gérer la base de données MyLibrary
     Date    : 03.05.2022
-    Version : 0.1
+    Version : 0.2
 */
 
 //autorisation des sources externes
 header('Access-Control-Allow-Origin: *');
 //définition du type d'application
 header('Content-Type: application/json');
-
-//Démarage de session
-session_start();
 
 //Connexion PDO
 require("models/monPDO.php");
@@ -26,11 +23,6 @@ require("objects/reference.php");
 require("objects/type.php");
 require("objects/utilisateur.php");
 
-//si première visite de l'utilisateur
-if(!isset($_SESSION['utilisateurActuel'])){
-    $_SESSION['utilisateurActuel'] = null;
-}
-
 $response = null;
 
 //Switch qui permet déterminer le type de requête de l'utilisateur
@@ -40,9 +32,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
         switch($_GET["session"]){
             //connexion
             case "connexion":
-                if($_SESSION['utilisateurActuel'] == null){
+                if($mydatabase->statusConnexionUtilisateur($_GET["email"]) == 0){
                     if(isset($_GET["email"]) && $_GET["password"]){
-                        $user = new Utilisateur(0, $_GET["email"], $_GET["password"]);
+                        $user = new Utilisateur(0, $_GET["email"], $_GET["password"], 0);
 
                         //Si les données sont trouvées dans la base
                         if($mydatabase->testConnexion($user)){
@@ -53,9 +45,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
                             //récupération des données de l'utilisateur
                             $user = $mydatabase->recevoirUtilisateurParEmail($user->getEmail());
-                            $_SESSION['connecte'] = true;
-                            //Sérialisation afin d'étviter une erreur lors de la récupération de l'objet
-                            $_SESSION['utilisateurActuel'] = serialize($user);
+
+                            $mydatabase->connexionUtilisateur($user);
                             //Retour réponse positive et ajout des données de l'utilisateur
                             $response = array_merge($response, $mydatabase->recevoirUtilisateurParEmail($user->getEmail())->returnArrayForJSON());                    
                         }
@@ -81,40 +72,25 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 else{
                     http_response_code(401);
                         $response = array(
-                            "401" => "Une session est déjà active",
+                            "401" => "La session de cet utilisateur est déjà active",
                         );
-                        //Affichage de l'erreur et retour des données de l'utilisateur
-                        $response = array_merge($response, unserialize($_SESSION['utilisateurActuel'])->returnArrayForJSON());
                 }
                 
                 break;
             //déconnexion de l'utilisateur
             case "deconnexion":
-                if($_SESSION['utilisateurActuel'] != null){
-                    //destruction de la session
-                    if(session_destroy()){
-                        http_response_code(201);
-                        $response = array(
-                            "Session détruite"
-                        );
-                    }
-                    else{
-                        http_response_code(500);
-                        $response = array(
-                            "Erreur serveur lors de la suppression de la session"
-                        );
-                    }
-                }
-                else{
-                    http_response_code(401);
-                    $response = array(
-                        "Aucune session n'est active"
-                    );
+                // <!> ajout de sécurité
+                if($mydatabase->statusConnexionUtilisateur($_GET["email"]) == 1){
+                    $user = $mydatabase->recevoirUtilisateurParEmail($_GET["email"]);
+                    $mydatabase->deconnexionUtilisateur($user);
+
+                    // <!> ajout de réponse
                 }
                 
                 
                 break;
             //information à propos de la session
+            //<!> A CORRIGER APRèS LA SUPPRESSION GéNéRALE DES SESSIONS
             case "info":
                 if($_SESSION['utilisateurActuel'] != null){
                     http_response_code(200);
@@ -133,6 +109,19 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 "400" => "Point d'entrée inconnu",
             );
             break;
+        }
+        break;
+    case "POST":
+        if(isset($_GET["email"]) && isset($_GET["password"]) && isset($_GET["titre"]) && isset($_GET["auteur"]) && isset($_GET["nomImage"])){
+            //Création d'un objet Livre à partir des données dans le get
+            $livre = new Livre(0, $_GET["titre"], $_GET["auteur"], $_GET["nomImage"], $mydatabase->recevoirUtilisateurParEmail($_GET["email"])->getIdUtilisateur());
+            $response = $livre->returnArrayForJSON();
+
+        }
+        //Ajout d'un livre
+        //if($mydatabase->testConnexion(new Utilisateur()))
+        if($mydatabase->statusConnexionUtilisateur($_GET["email"]) == 1){
+            
         }
         break;
 }

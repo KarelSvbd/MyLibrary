@@ -12,3 +12,4 @@ C:\Users\karel.svbd\Desktop\Pour TPI\src\Projet C#\MyLibrary\WindowsFormsApp1\bi
 C:\Users\karel.svbd\Desktop\Pour TPI\src\Projet C#\MyLibrary\WindowsFormsApp1\obj\Debug\MyLibrary.csproj.CopyComplete
 C:\Users\karel.svbd\Desktop\Pour TPI\src\Projet C#\MyLibrary\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
 C:\Users\karel.svbd\Desktop\Pour TPI\src\Projet C#\MyLibrary\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb
+C:\Users\karel.svbd\Desktop\Pour TPI\src\Projet C#\MyLibrary\WindowsFormsApp1\obj\Debug\MyLibrary.frmCollectionLivres.resources

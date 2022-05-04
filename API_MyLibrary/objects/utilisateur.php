@@ -11,7 +11,7 @@
     class Utilisateur
     {
         //Variables d'instances
-        private $_idUtilisateur, $_email, $_password;
+        private $_idUtilisateur, $_email, $_password, $_connecte;
 
         //Propriétés
         public function getIdUtilisateur(){
@@ -35,6 +35,13 @@
             $this->_password = $password;
         }
 
+        public function getConnecte(){
+            return $this->_connecte;
+        }
+        public function setConnecte($connecte){
+            $this->_connecte = $connecte;
+        }
+
         //Constructeur
         /** Permet de créer un Utilisateur
          * 
@@ -42,18 +49,20 @@
          *  @param string varchar(255) $email
          *  @param string varchar(255) $password
          */
-        function __construct($idUtilisateur, $email, $password)
+        function __construct($idUtilisateur, $email, $password, $connecte)
         {
             $this->_idUtilisateur = $idUtilisateur;
             $this->_email = $email;
             $this->_password = $password;
+            $this->_connecte = $connecte;
         }
 
         public function returnArrayForJSON(){
             return array(
                 "idUtilisateur" => $this->_idUtilisateur,
                 "email" => $this->_email,
-                "password" => $this->_password
+                "password" => $this->_password,
+                "connecte" => $this->_connecte
             );
         }
     }

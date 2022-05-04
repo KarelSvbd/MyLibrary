@@ -8,7 +8,7 @@
         Desc.   : Permet de répliquer les données dans la table Livres
     */
 
-    class Livres
+    class Livre
     {
         //Variables d'instances
         private $_idLivre, $_titre, $_auteur, $_nomImage, $_idUtilisateur;
@@ -65,6 +65,16 @@
             $this->_auteur = $auteur;
             $this->_nomImage = $nomImage;
             $this->_idUtilisateur = $idUtilisateur;
+        }
+
+        public function returnArrayForJSON(){
+            return array(
+                "idLivre" => $this->_idLivre,
+                "titre" => $this->_titre,
+                "auteur" => $this->_auteur,
+                "nomImage" => $this->_nomImage,
+                "idUtilisateur" => $this->_idUtilisateur
+            );
         }
 
     }

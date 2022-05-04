@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace MyLibrary.classes
 {
@@ -11,7 +13,7 @@ namespace MyLibrary.classes
         private const int DEFAULT_IDUTILISATEUR = 0;
         private int _idUtilisateur;
         private string _email, _password;
-        private ClientRest clientRest;
+        private ClientRest _clientRest;
 
         public int IdUtilisateur
         {
@@ -33,7 +35,7 @@ namespace MyLibrary.classes
 
         public Utilisateur(int idUtilisateur, string email, string password)
         {
-            clientRest = new ClientRest("http://localhost/ProjetsWeb/MyLibrary/src/API_MyLibrary/");
+            _clientRest = ClientRest.Instance;
             _idUtilisateur = idUtilisateur;
             _email = email;
             _password = password;
@@ -41,12 +43,27 @@ namespace MyLibrary.classes
 
         public Utilisateur(string email, string password) : this(DEFAULT_IDUTILISATEUR, email, password)
         {
-
+            
         }
 
-        /*public bool testConnexion()
+        public bool TestConnexion()
         {
+            return _clientRest.AppelSimple("?session=connexion&email=" + _email + "&password=" + _password + "", "get");
+        }
 
-        }*/
+        public void Deconnexion()
+        {
+            _clientRest.AppelSimple("?session=deconnexion&email="+_email+"", "get");
+        }
+
+        public void RecuperationInfoUtiisateur()
+        {
+            var result = _clientRest.ApiRequest("?session=info", "get");
+
+            /*foreach(var item in result)
+            {*/
+                MessageBox.Show(result.ToString());
+            //}
+        }
     }
 }
