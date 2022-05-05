@@ -58,11 +58,11 @@ namespace MyLibrary.classes
 
         public void RecuperationInfoUtiisateur()
         {
-            var result = _clientRest.ApiRequest("?session=info", "get");
+            //var result = _clientRest.ApiRequest("?session=info", "get");
 
             /*foreach(var item in result)
             {*/
-                MessageBox.Show(result.ToString());
+                //MessageBox.Show(result.ToString());
             //}
         }
     }

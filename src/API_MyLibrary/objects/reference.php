@@ -45,21 +45,21 @@
         public function getIdType(){
             return $this->_idType;
         }
-        public function setIdType($idType){
+        public function setIdType(int $idType){
             $this->_idType = $idType;
         }
 
         public function getLivresReference(){
             return $this->_livreReference;
         }
-        public function setLivresReference($LivreReference){
+        public function setLivresReference(string $LivreReference){
             $this->_livreReference = $LivreReference;
         }
 
         public function getIdUtilisateur(){
             return $this->_idUtilisateur;
         }
-        public function setIdUtilisateur($idUtilisateur){
+        public function setIdUtilisateur(int $idUtilisateur){
             $this->_idUtilisateur = $idUtilisateur;
         }
 
@@ -74,12 +74,14 @@
          *  @param integer int(11) $livreReference
          *  @param integer int(11) $idUtilisateur
          */
-        function __construct($idLivre, $titre, $auteur, $nomImage, $idUtilisateur)
+        function __construct(int $idReference, string $nomReference, string $nomImage, string $auteur, int $idType, int $livreReference, int $idUtilisateur)
         {
-            $this->_idLivre = $idLivre;
-            $this->_titre = $titre;
-            $this->_auteur = $auteur;
+            $this->_idReference = $idReference;
+            $this->_nomReference = $nomReference;
             $this->_nomImage = $nomImage;
+            $this->_auteur = $auteur;
+            $this->_idType = $idType;
+            $this->_livreReference = $livreReference;
             $this->_idUtilisateur = $idUtilisateur;
         }
     }

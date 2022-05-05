@@ -20,6 +20,10 @@ class MyLibrary
     private $_deconnexionUtilisateur = null;
     private $_statusConnexionUtilisateur = null;
 
+    private $_afficherLivreParIdUtilisateur = null;
+    private $_ajouterLivre = null;
+    private $_rechercheLivreParAuteurOuTitre = null;
+
     //	Constructeur privé, crée l'instance de PDO qui sera sollicitée
     //	pour toutes les méthodes de la classe
     public function __construct()
@@ -50,6 +54,27 @@ class MyLibrary
             $sql = "SELECT connecte FROM Utilisateurs WHERE email=:email";
             $this->_statusConnexionUtilisateur = $this->_unPdo->prepare($sql);
             $this->_statusConnexionUtilisateur->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
+
+            $sql = "INSERT INTO Livres (titre, auteur, nomImage, idUtilisateur) VALUES(:titre, :auteur, :nomImage, :idUtilisateur);";
+            $this->_ajouterLivre = $this->_unPdo->prepare($sql);
+            $this->_ajouterLivre->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
+
+            $sql = "UPDATE Livres SET titre=:titre, auteur=:auteur, nomImage=:nomImage WHERE idLivre=:idLivre;";
+            $this->_modifierLivre = $this->_unPdo->prepare($sql);
+            $this->_modifierLivre->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
+
+            $sql = "DELETE FROM Livres WHERE idLivre=:idLivre;";
+            $this->_supprimerLivre = $this->_unPdo->prepare($sql);
+            $this->_supprimerLivre->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
+
+            $sql = "SELECT * FROM Livres WHERE idUtilisateur=:idUtilisateur";
+            $this->_afficherLivreParIdUtilisateur = $this->_unPdo->prepare($sql);
+            $this->_afficherLivreParIdUtilisateur->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
+
+            $sql = "SELECT * FROM Livres WHERE auteur LIKE :auteur OR titre LIKE :titre AND idUtilisateur=:idUtilisateur";
+            $this->_rechercheLivreParAuteurOuTitre = $this->_unPdo->prepare($sql);
+            $this->_rechercheLivreParAuteurOuTitre->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
+
         }
         catch (PDOException $e) {
             print "Erreur !: " . $e->getMessage() . "<br>";
@@ -80,6 +105,38 @@ class MyLibrary
         $this->_statusConnexionUtilisateur->execute(array(':email' => $email));
         $resultat = $this->_statusConnexionUtilisateur->fetchAll();
         return $resultat[0][0];
+    }
+
+    public function ajouterLivre(Livre $livre){
+        $this->_ajouterLivre->execute(array(':titre' => $livre->getTitre(), ':auteur' => $livre->getAuteur(), ':nomImage' => $livre->getNomImage(), ':idUtilisateur' => $livre->getIdUtilisateur()));
+    }
+
+    public function modifierLivre(Livre $livre){
+        $this->_modifierLivre->execute(array(':idLivre'=>$livre->getIdLivre(),':titre' => $livre->getTitre(), ':auteur' => $livre->getAuteur(), ':nomImage' => $livre->getNomImage()));
+    }
+
+    public function supprimerLivre(Livre $livre){
+        $this->_supprimerLivre->execute(array(':idLivre'=>$livre->getIdLivre()));
+    }
+
+    public function livresParUtilisateur(Utilisateur $utilisateur){
+        $this->_afficherLivreParIdUtilisateur->execute(array(':idUtilisateur' => $utilisateur->getIdUtilisateur()));
+        $resultat = $this->_afficherLivreParIdUtilisateur->fetchAll();
+        $arrayLivre = array();
+        foreach($resultat as $unLivre){
+            array_push($arrayLivre, new Livre($unLivre[0], $unLivre[1], $unLivre[2], $unLivre[3], $unLivre[4]));
+        }
+        return $arrayLivre;
+    }
+
+    public function rechercheLivreParAuteurOuTitre(Utilisateur $utilisateur, string $recherche){
+        $this->_rechercheLivreParAuteurOuTitre->execute(array(':idUtilisateur' => $utilisateur->getIdUtilisateur(), ':auteur' => "%".$recherche."%", ':titre' => "%".$recherche."%"));
+        $resultat = $this->_rechercheLivreParAuteurOuTitre->fetchAll();
+        $arrayLivre = array();
+        foreach($resultat as $unLivre){
+            array_push($arrayLivre, new Livre($unLivre[0], $unLivre[1], $unLivre[2], $unLivre[3], $unLivre[4]));
+        }
+        return $arrayLivre;
     }
 
     public function __destruct()

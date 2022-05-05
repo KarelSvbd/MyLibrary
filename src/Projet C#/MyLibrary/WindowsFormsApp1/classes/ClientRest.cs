@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace MyLibrary.classes
 {
@@ -108,6 +109,28 @@ namespace MyLibrary.classes
                 Console.WriteLine("error : " + ex);
                 return null;
             }
+        }
+
+        public List<Livre> LivresParUtilisateur(Utilisateur utilisateur)
+        {
+            List<Livre> livres = new List<Livre>();
+            dynamic livresDynamic = DeserialiseJSON(ApiRequest("?email=" + utilisateur.Email + "&password=" + utilisateur.Password + "&table=livres", "GET"));
+            foreach(var element in livresDynamic)
+            {
+                livres.Add(new Livre(Convert.ToInt32(element["idLivre"]), Convert.ToString(element["titre"]), Convert.ToString(element["auteur"]), Convert.ToString(element["nomImage"]), Convert.ToInt32(element["idUtilisateur"])));
+            }
+            return livres;
+        }
+
+        public List<Livre> LivresParUtilisateur(Utilisateur utilisateur, string recherche)
+        {
+            List<Livre> livres = new List<Livre>();
+            dynamic livresDynamic = DeserialiseJSON(ApiRequest("?email="+utilisateur.Email+"&password="+utilisateur.Password+"&table=livres&recherche="+recherche+"", "GET"));
+            foreach (var element in livresDynamic)
+            {
+                livres.Add(new Livre(Convert.ToInt32(element["idLivre"]), Convert.ToString(element["titre"]), Convert.ToString(element["auteur"]), Convert.ToString(element["nomImage"]), Convert.ToInt32(element["idUtilisateur"])));
+            }
+            return livres;
         }
     }
 }

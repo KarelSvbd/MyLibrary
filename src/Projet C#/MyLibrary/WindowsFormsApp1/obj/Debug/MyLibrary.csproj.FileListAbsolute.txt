@@ -13,3 +13,18 @@ C:\Users\karel.svbd\Desktop\Pour TPI\src\Projet C#\MyLibrary\WindowsFormsApp1\ob
 C:\Users\karel.svbd\Desktop\Pour TPI\src\Projet C#\MyLibrary\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
 C:\Users\karel.svbd\Desktop\Pour TPI\src\Projet C#\MyLibrary\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb
 C:\Users\karel.svbd\Desktop\Pour TPI\src\Projet C#\MyLibrary\WindowsFormsApp1\obj\Debug\MyLibrary.frmCollectionLivres.resources
+C:\github\MyLibrary\src\Projet C#\MyLibrary\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe.config
+C:\github\MyLibrary\src\Projet C#\MyLibrary\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe
+C:\github\MyLibrary\src\Projet C#\MyLibrary\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.pdb
+C:\github\MyLibrary\src\Projet C#\MyLibrary\WindowsFormsApp1\bin\Debug\Newtonsoft.Json.dll
+C:\github\MyLibrary\src\Projet C#\MyLibrary\WindowsFormsApp1\bin\Debug\Newtonsoft.Json.xml
+C:\github\MyLibrary\src\Projet C#\MyLibrary\WindowsFormsApp1\obj\Debug\MyLibrary.csproj.AssemblyReference.cache
+C:\github\MyLibrary\src\Projet C#\MyLibrary\WindowsFormsApp1\obj\Debug\MyLibrary.csproj.SuggestedBindingRedirects.cache
+C:\github\MyLibrary\src\Projet C#\MyLibrary\WindowsFormsApp1\obj\Debug\MyLibrary.frmCollectionLivres.resources
+C:\github\MyLibrary\src\Projet C#\MyLibrary\WindowsFormsApp1\obj\Debug\MyLibrary.frmConnexion.resources
+C:\github\MyLibrary\src\Projet C#\MyLibrary\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Properties.Resources.resources
+C:\github\MyLibrary\src\Projet C#\MyLibrary\WindowsFormsApp1\obj\Debug\MyLibrary.csproj.GenerateResource.cache
+C:\github\MyLibrary\src\Projet C#\MyLibrary\WindowsFormsApp1\obj\Debug\MyLibrary.csproj.CoreCompileInputs.cache
+C:\github\MyLibrary\src\Projet C#\MyLibrary\WindowsFormsApp1\obj\Debug\MyLibrary.csproj.CopyComplete
+C:\github\MyLibrary\src\Projet C#\MyLibrary\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
+C:\github\MyLibrary\src\Projet C#\MyLibrary\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb

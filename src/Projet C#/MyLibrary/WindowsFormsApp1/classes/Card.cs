@@ -14,6 +14,7 @@ namespace MyLibrary.classes
         public Size taille = new Size(150, 200);
         PictureBox _image;
         private Livre _livre;
+        private frmCollectionLivres _lvres;
 
         public Livre ObjLivre
         {
@@ -21,20 +22,21 @@ namespace MyLibrary.classes
             set { _livre = value; }
         }
 
-        public Card(): this(new Livre(0, "Notre Dame de paris", "Victor Hugo", "frmConnexion.png", 0), "C:/Users/karel.svbd/Desktop/Pour TPI/src/Projet C#/MyLibrary/WindowsFormsApp1/ressources/images/")
+        public Card(): this(new Livre(0, "Notre Dame de paris", "Victor Hugo", "frmConnexion.png", 0), "C:/Users/karel.svbd/Desktop/Pour TPI/src/Projet C#/MyLibrary/WindowsFormsApp1/ressources/images/", null)
         {
             
         }
 
-        public Card(Livre livre, string imageLocation) : base()
+        public Card(Livre livre, string imageLocation, frmCollectionLivres lvres) : base()
         {
             _livre = livre;
+            _lvres = lvres;
             Size = taille;
             BackColor = Color.LightGray;
             BorderStyle = BorderStyle.FixedSingle;
             _image = new PictureBox();
             _image.Size = new Size(150, 70);
-            _image.Image = Image.FromFile(imageLocation + livre.NomImage);
+            //_image.Image = Image.FromFile(imageLocation + livre.NomImage);
             _image.SizeMode = PictureBoxSizeMode.StretchImage;
 
 
@@ -72,7 +74,7 @@ namespace MyLibrary.classes
 
         public void ClickCard(object o, EventArgs e)
         {
-            
+            _lvres.SelectionnerCard(this);
         }
     }
 }

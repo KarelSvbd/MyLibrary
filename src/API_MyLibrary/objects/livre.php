@@ -17,35 +17,35 @@
         public function getIdLivre(){
             return $this->_idLivre;
         }
-        public function setIdLivre($idLivre){
+        public function setIdLivre(int $idLivre){
             $this->_idLivre = $idLivre;
         }
 
         public function getTitre(){
             return $this->_titre;
         }
-        public function setTitre($titre){
+        public function setTitre(string $titre){
             $this->_titre = $titre;
         }
 
         public function getAuteur(){
             return $this->_auteur;
         }
-        public function setAuteur($auteur){
+        public function setAuteur(string $auteur){
             $this->_auteur = $auteur;
         }
 
         public function getNomImage(){
             return $this->_nomImage;
         }
-        public function setNomImage($nomImage){
+        public function setNomImage(string $nomImage){
             $this->_nomImage = $nomImage;
         }
 
         public function getIdUtilisateur(){
             return $this->_idUtilisateur;
         }
-        public function setIdUtilisateur($idUtilisateur){
+        public function setIdUtilisateur(int $idUtilisateur){
             $this->_idUtilisateur = $idUtilisateur;
         }
 
@@ -58,7 +58,7 @@
          *  @param string varchar(255) $nomImage
          *  @param integer int(11) $idUtilisateur
          */
-        function __construct($idLivre, $titre, $auteur, $nomImage, $idUtilisateur)
+        function __construct(int $idLivre, string $titre, string $auteur, string $nomImage, int $idUtilisateur)
         {
             $this->_idLivre = $idLivre;
             $this->_titre = $titre;

@@ -56,5 +56,46 @@ J'ai effectué les tâches que je me suis attribué. Cependant je me suis rendu 
 
 ### 04.05.2022
 #### Objectifs
+Je vais commencer cettre journée en implémentant la connexion dans mon application c#. Ensuite je vais commencer le système de card.
+#### Déroulement
+07h30 : Implémentation de la connexion dans l'application c#
+  1. Problème rencontré lors de la récupération des valeurs du JSON Solution : Utiliser un bolléen qui retourne si l'API a envoyé une erreur 
+
+
+09h50 : Consultation avec Mme Travjak à propos de l'avancement
+10h00 : Début du travail sur les card
+1. Création de l'objet card hérité du composant panel
+
+
+11h15 : Création du point d'entrée d'ajout de livres
+13h00 : Je me suis rendu compte que utiliser des session dans une API n'est pas compatible avec le package NuGet. Par conséquent, je dois repenser mon API et ma base de données.
+1. ajout de la colonne "connecte" dans la table utilisateur
+2. Changement du code de l'api (explication du nouveau système de sécurité dans le rapport de projet)
+
+
+#### Conclusion
+Malgrès le fait qu'il y a eu un gros imprévu au niveau des sessions de l'API, les tâches de la journée ont été accomplies.
+
+#### Conclusion
+
+### 05.05.2022
+#### Objectifs
+L'objectif de la jour est de terminer la partie CRUD de la collection de livre. Pour ce faire il faut que j'achève les points d'entrées dans l'API et la génération dynamique des card dans l'application C#
+#### Déroulement
+07h30 : Travail sur les points d'entrées de la table Livres
+08h00 : implémentation d'ajout d'image à partir du formulaire
+  - Note : Ajouter les données fonctionne mais on ne peut pas encore envoyer le nom des image, j'y consacrerai plus de temps plus tard
+08h30 : Récupération des Livres de l'utilisateur
+10h15 : récupération des données dans l'application c# et création dynamique des card
+10h50 : Recherche des livres avec les filtres
+14h00 : Permière version fonctionnel du crud des Livres
+14h00 : documentation
+15h00 : Visioconférence avec Mme Travnjak 
+15h30 : Début sur le système de recherche dans les livres
+#### Conclusion
+J'ai terminé plus de tâches que prévu, en plus du crud. J'ai implémenté la recherche personnalisé dans les auteurs et les titres
+
+### 09.05.2022
+#### Objectifs
 #### Déroulement
 #### Conclusion
