@@ -1,9 +1,6 @@
 <?php
     /*  Projet  : API_MyLibrary
         Auteur  : Svoboda Karel Vilém
-        Date    : 03.05.2022
-        Version : 0.1
-
         Class   : Reference
         Desc.   : Permet de répliquer les données dans la table References
     */
@@ -17,28 +14,28 @@
         public function getIdReference(){
             return $this->_idReference;
         }
-        public function setIdReference($idReference){
+        public function setIdReference(int $idReference){
             $this->_idReference = $idReference;
         }
 
         public function getNomReference(){
             return $this->_nomReference;
         }
-        public function setNomReference($nomReference){
+        public function setNomReference(string $nomReference){
             $this->_nomReference = $nomReference;
         }
 
         public function getNomImage(){
             return $this->_nomImage;
         }
-        public function setNomImage($nomImage){
+        public function setNomImage(string $nomImage){
             $this->_nomImage = $nomImage;
         }
 
         public function getAuteur(){
             return $this->_auteur;
         }
-        public function setAuteur($auteur){
+        public function setAuteur(string $auteur){
             $this->_auteur = $auteur;
         }
 
@@ -64,6 +61,7 @@
         }
 
         //Constructeur
+        
         /** Permet de créer une Reference
          * 
          *  @param integer int(11) $idReference
@@ -83,6 +81,24 @@
             $this->_idType = $idType;
             $this->_livreReference = $livreReference;
             $this->_idUtilisateur = $idUtilisateur;
+        }
+
+        //Fonctions
+
+        /** Permet de retourner un array avec les informations de l'objet
+         * 
+         * @return array array formé pour JSON
+         */
+        public function returnArrayForJSON(){
+            return array(
+                "idReference" => $this->_idReference,
+                "nomReference" => $this->_nomReference,
+                "nomImage" => $this->_nomImage,
+                "auteur" => $this->_autuer,
+                "idType" => $this->_idType,
+                "livreReference" => $this->_livreReference,
+                "idUtilisateur" => $this->_idUtilisateur
+            );
         }
     }
 ?>

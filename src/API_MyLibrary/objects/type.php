@@ -1,9 +1,6 @@
 <?php
     /*  Projet  : API_MyLibrary
         Auteur  : Svoboda Karel Vilém
-        Date    : 03.05.2022
-        Version : 0.1
-
         Class   : Type
         Desc.   : Permet de répliquer les données dans la table Types
     */
@@ -49,9 +46,8 @@
             $this->_description = $description;
         }
 
-        
-
         //Constructeur
+
         /** Permet de créer un Type de reference
          * 
          *  @param integer int(11) $idType
@@ -60,13 +56,29 @@
          *  @param string varchar(100) $auteur
          *  @param string mediumtext $description
          */
-        function __construct($idType, $nomType, $nomImage, $auteur, $description)
+        function __construct(int $idType, string $nomType, string $nomImage, string $auteur, string $description)
         {
             $this->_idType = $idType;
             $this->_nomType = $nomType;
             $this->_auteur = $auteur;
             $this->_nomImage = $nomImage;
             $this->_description = $description;
+        }
+
+        //Fonctions
+
+        /** Permet de retourner un array avec les informations de l'objet
+         * 
+         * @return array array formé pour JSON
+         */
+        public function returnArrayForJSON(){
+            return array(
+                "idType" => $this->_idType,
+                "nomType" => $this->_nomType,
+                "auteur" => $this->_auteur,
+                "nomImage" => $this->_nomImage,
+                "description" => $this->_description
+            );
         }
     }
 ?>

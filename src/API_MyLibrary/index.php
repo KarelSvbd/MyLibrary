@@ -2,8 +2,8 @@
 /*  Projet  : API_MyLibrary
     Auteur  : Svoboda Karel Vilém
     Desc.   : API qui permet de gérer la base de données MyLibrary
-    Date    : 05.05.2022
-    Version : 0.4
+    Date    : 08.05.2022
+    Version : 0.4.1
 */
 
 //autorisation des sources externes
@@ -12,7 +12,7 @@ header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
 //Connexion PDO
-require("models/monPDO.php");
+require("models/myLibraryPDO.php");
 $mydatabase = new MyLibrary();
 
 //require("models/sqlFunctions.php");
@@ -80,6 +80,10 @@ if (isset($_GET["email"]) && $_GET["password"]) {
                             $mydatabase->deconnexionUtilisateur($user);
 
                             // <!> ajout de réponse
+                            http_response_code(201);
+                            $response = array(
+                                "201" => "l'utilisateur est déconnectée",
+                            );
                         }
 
 

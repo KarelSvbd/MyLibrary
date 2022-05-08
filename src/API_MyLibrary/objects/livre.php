@@ -1,9 +1,6 @@
 <?php
     /*  Projet  : API_MyLibrary
         Auteur  : Svoboda Karel Vilém
-        Date    : 03.05.2022
-        Version : 0.1
-
         Class   : Livre
         Desc.   : Permet de répliquer les données dans la table Livres
     */
@@ -50,6 +47,7 @@
         }
 
         //Constructeur
+
         /** Permet de créer un livre
          * 
          *  @param integer int(11) $idLivre
@@ -67,6 +65,12 @@
             $this->_idUtilisateur = $idUtilisateur;
         }
 
+        //Fonctions
+
+        /** Permet de retourner un array avec les informations de l'objet
+         * 
+         * @return array array formé pour JSON
+         */
         public function returnArrayForJSON(){
             return array(
                 "idLivre" => $this->_idLivre,
@@ -76,6 +80,5 @@
                 "idUtilisateur" => $this->_idUtilisateur
             );
         }
-
     }
 ?>
