@@ -132,5 +132,23 @@ namespace MyLibrary.classes
             }
             return livres;
         }
+
+        public List<Type> TousTypes(Utilisateur utilisateur)
+        {
+            List<Type> types = new List<Type>();
+            dynamic typesDynamic = DeserialiseJSON(ApiRequest("?email=" + utilisateur.Email + "&password=" + utilisateur.Password + "&table=types", "GET"));
+            foreach(var element in typesDynamic)
+            {
+                types.Add(new Type(Convert.ToInt32(element["idType"]), Convert.ToString(element["nomType"])));
+            }
+
+            return types;
+        }
+
+        public List<Reference> ReferencesParLivre(Utilisateur utilisateur, Livre livre)
+        {
+            List<Reference> referencesParLivre = new List<Reference>();
+            return null;
+        }
     }
 }

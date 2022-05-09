@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MyLibrary.classes;
+using WindowsFormsApp1;
 
 namespace MyLibrary
 {
@@ -17,7 +18,7 @@ namespace MyLibrary
         ClientRest _clientRest;
         List<Livre> _listLivresUtilisateur;
         List<Card> _listCard;
-        Card _cardSelectionne;
+        CardLivre _cardSelectionne;
         
         public frmCollectionLivres(Utilisateur utilisateur, frmConnexion frmPrecedente)
         {
@@ -120,7 +121,7 @@ namespace MyLibrary
 
             foreach (Livre livresPourCard in _listLivresUtilisateur)
             {
-                Card nouvelleCard = new Card(livresPourCard, "pas encore implémenté", this);
+                Card nouvelleCard = new CardLivre(livresPourCard, "pas encore implémenté", this);
                 _listCard.Add(nouvelleCard);
                 flpListCard.Controls.Add(nouvelleCard);
             }
@@ -135,30 +136,26 @@ namespace MyLibrary
 
             foreach (Livre livresPourCard in _listLivresUtilisateur)
             {
-                Card nouvelleCard = new Card(livresPourCard, "pas encore implémenté", this);
+                CardLivre nouvelleCard = new CardLivre(livresPourCard, "pas encore implémenté", this);
                 _listCard.Add(nouvelleCard);
                 flpListCard.Controls.Add(nouvelleCard);
             }
         }
 
-        private void btnRechercher_Click(object sender, EventArgs e)
-        {
-            
-        }
 
         private void flpListCard_Click(object sender, EventArgs e)
         {
 
         }
 
-        public void SelectionnerCard(Card card)
+        public void SelectionnerCard(CardLivre card)
         {
             _cardSelectionne = card;
             btnModifier.Enabled = true;
             btnSupprimer.Enabled = true;
-            foreach(Card uneCard in _listCard)
+            foreach(CardLivre uneCard in _listCard)
             {
-                uneCard.BackColor = Color.LightGray;
+                uneCard.BackColor = Color.White;
                 uneCard.ForeColor = Color.Black;
             }
             card.BackColor = Color.Gray;
@@ -203,6 +200,12 @@ namespace MyLibrary
             {
                 RefreshView();
             }
+        }
+
+        public void AfficherReference(Livre livre)
+        {
+            frmCollectionReferences collectionReferences = new frmCollectionReferences(livre, _utilisateur);
+            collectionReferences.Show();
         }
     }
 }

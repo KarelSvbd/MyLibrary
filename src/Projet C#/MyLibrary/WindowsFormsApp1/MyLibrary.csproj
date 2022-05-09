@@ -49,14 +49,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="classes\Card.cs">
+    <Compile Include="classes\compostants\Card.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="classes\ClientRest.cs" />
-    <Compile Include="classes\Livre.cs" />
-    <Compile Include="classes\Reference.cs" />
-    <Compile Include="classes\Type.cs" />
-    <Compile Include="classes\Utilisateur.cs" />
+    <Compile Include="classes\compostants\CardLivre.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="classes\compostants\CardReferenceLieu.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="classes\compostants\CardReferenceLivre.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="classes\compostants\CardReferenceMusique.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="classes\API\ClientRest.cs" />
+    <Compile Include="classes\references\ReferenceLieu.cs" />
+    <Compile Include="classes\references\ReferenceLivre.cs" />
+    <Compile Include="classes\tablesBaseDeDonnees\Livre.cs" />
+    <Compile Include="classes\tablesBaseDeDonnees\Reference.cs" />
+    <Compile Include="classes\references\ReferenceMusique.cs" />
+    <Compile Include="classes\tablesBaseDeDonnees\Type.cs" />
+    <Compile Include="classes\tablesBaseDeDonnees\Utilisateur.cs" />
     <Compile Include="frmCollectionLivres.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,6 +84,12 @@
     <Compile Include="frmConnexion.Designer.cs">
       <DependentUpon>frmConnexion.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmCollectionReferences.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCollectionReferences.Designer.cs">
+      <DependentUpon>frmCollectionReferences.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmCollectionLivres.resx">
@@ -76,6 +97,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmConnexion.resx">
       <DependentUpon>frmConnexion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCollectionReferences.resx">
+      <DependentUpon>frmCollectionReferences.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -103,5 +127,6 @@
   <ItemGroup>
     <Content Include="ressources\images\frmConnexion.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

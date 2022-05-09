@@ -28,3 +28,4 @@ C:\github\MyLibrary\src\Projet C#\MyLibrary\WindowsFormsApp1\obj\Debug\MyLibrary
 C:\github\MyLibrary\src\Projet C#\MyLibrary\WindowsFormsApp1\obj\Debug\MyLibrary.csproj.CopyComplete
 C:\github\MyLibrary\src\Projet C#\MyLibrary\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
 C:\github\MyLibrary\src\Projet C#\MyLibrary\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb
+C:\github\MyLibrary\src\Projet C#\MyLibrary\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.frmCollectionReferences.resources

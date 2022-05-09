@@ -1,45 +1,40 @@
-﻿using System;
+﻿using MyLibrary;
+using MyLibrary.classes;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Drawing;
-using MyLibrary;
 
-namespace MyLibrary.classes
+namespace MyLibrary
 {
-    public class Card : Panel
+    public class CardLivre : Card
     {
-        public Size taille = new Size(150, 200);
         PictureBox _image;
         private Livre _livre;
         private frmCollectionLivres _lvres;
-
         public Livre ObjLivre
         {
             get { return _livre; }
             set { _livre = value; }
         }
 
-        public Card(): this(new Livre(0, "Notre Dame de paris", "Victor Hugo", "frmConnexion.png", 0), "C:/Users/karel.svbd/Desktop/Pour TPI/src/Projet C#/MyLibrary/WindowsFormsApp1/ressources/images/", null)
+        public CardLivre() : this(new Livre(0, "Notre Dame de paris", "Victor Hugo", "frmConnexion.png", 0), "C:/Users/karel.svbd/Desktop/Pour TPI/src/Projet C#/MyLibrary/WindowsFormsApp1/ressources/images/", null)
         {
-            
-        }
 
-        public Card(Livre livre, string imageLocation, frmCollectionLivres lvres) : base()
+        } 
+        public CardLivre(Livre livre, string imageLocation, frmCollectionLivres lvres) : base()
         {
             _livre = livre;
             _lvres = lvres;
-            Size = taille;
-            BackColor = Color.LightGray;
-            BorderStyle = BorderStyle.FixedSingle;
+
             _image = new PictureBox();
             _image.Size = new Size(150, 70);
+            _image.BackColor = Color.LightBlue;
             //_image.Image = Image.FromFile(imageLocation + livre.NomImage);
             _image.SizeMode = PictureBoxSizeMode.StretchImage;
-
-
 
             Label lbltxtAuteur = new Label();
             lbltxtAuteur.Text = "Auteur : ";
@@ -61,6 +56,7 @@ namespace MyLibrary.classes
             btnReference.Location = new Point(Location.X + 35, Location.Y + 160);
             btnReference.Width = 80;
             Click += ClickCard;
+            btnReference.Click += ClickReference;
 
 
             Controls.Add(_image);
@@ -69,12 +65,17 @@ namespace MyLibrary.classes
             Controls.Add(lblTitre);
             Controls.Add(lbltxtTitre);
             Controls.Add(btnReference);
-
         }
 
-        public void ClickCard(object o, EventArgs e)
+        protected override void ClickCard(object o, EventArgs e)
         {
             _lvres.SelectionnerCard(this);
+        }
+
+        private void ClickReference(object o, EventArgs e)
+        {
+            _lvres.AfficherReference(_livre);
+
         }
     }
 }

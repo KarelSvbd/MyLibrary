@@ -40,7 +40,6 @@
             this.tbxTitre = new System.Windows.Forms.TextBox();
             this.btnImporterImage = new System.Windows.Forms.Button();
             this.flpListCard = new System.Windows.Forms.FlowLayoutPanel();
-            this.btnRechercher = new System.Windows.Forms.Button();
             this.pbxImageAjouter = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbxImageAjouter)).BeginInit();
             this.SuspendLayout();
@@ -161,16 +160,6 @@
             this.flpListCard.TabIndex = 15;
             this.flpListCard.Click += new System.EventHandler(this.flpListCard_Click);
             // 
-            // btnRechercher
-            // 
-            this.btnRechercher.Location = new System.Drawing.Point(394, 9);
-            this.btnRechercher.Name = "btnRechercher";
-            this.btnRechercher.Size = new System.Drawing.Size(87, 23);
-            this.btnRechercher.TabIndex = 16;
-            this.btnRechercher.Text = "Rechercher";
-            this.btnRechercher.UseVisualStyleBackColor = true;
-            this.btnRechercher.Click += new System.EventHandler(this.btnRechercher_Click);
-            // 
             // pbxImageAjouter
             // 
             this.pbxImageAjouter.Location = new System.Drawing.Point(1073, 155);
@@ -185,7 +174,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1299, 878);
             this.Controls.Add(this.pbxImageAjouter);
-            this.Controls.Add(this.btnRechercher);
             this.Controls.Add(this.flpListCard);
             this.Controls.Add(this.btnImporterImage);
             this.Controls.Add(this.tbxTitre);
@@ -221,7 +209,6 @@
         private System.Windows.Forms.TextBox tbxTitre;
         private System.Windows.Forms.Button btnImporterImage;
         private System.Windows.Forms.FlowLayoutPanel flpListCard;
-        private System.Windows.Forms.Button btnRechercher;
         private System.Windows.Forms.PictureBox pbxImageAjouter;
     }
 }

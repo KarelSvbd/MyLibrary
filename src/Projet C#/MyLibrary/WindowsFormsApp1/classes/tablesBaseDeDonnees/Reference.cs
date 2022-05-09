@@ -3,8 +3,8 @@
     public class Reference
     {
         #region Variables d'instances
-        private int _idReference, _idType, _livreReference, _idUtilisateur;
-        private string _nomReference, _nomImage, _auteur;
+        private int _idReference, _idType, _livreReference, _idUtilisateur, _idLivre;
+        private string _nomReference, _nomImage, _auteur, _description;
         #endregion
 
         #region Propriétés
@@ -49,10 +49,22 @@
             get { return _idUtilisateur; }
             set { _idUtilisateur = value; }
         }
+        public int IdLivre
+        {
+            get { return _idLivre; }
+            set { _idLivre = value; }
+        }
+        public string Description
+        {
+            get { return _description; }
+            set { _description = value; }
+        }
+
+        
         #endregion
 
         #region Constructeurs
-        public Reference(int idReference, string nomReference, string nomImage, string auteur, int idType, int livreReference, int idUtilisateur)
+        public Reference(int idReference, string nomReference, string nomImage, string auteur, int idType, int livreReference, int idUtilisateur, int idLivre, string description)
         {
             _idReference = idReference;
             _nomReference = nomReference;
@@ -61,6 +73,8 @@
             _idType = idType;
             _livreReference = livreReference;
             _idUtilisateur = idUtilisateur;
+            _idLivre = idLivre;
+            _description = description;
         }
 
         //public Reference

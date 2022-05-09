@@ -53,7 +53,7 @@ namespace MyLibrary.classes
 
         public void Deconnexion()
         {
-            _clientRest.AppelSimple("?session=deconnexion&email="+_email+"", "get");
+            _clientRest.AppelSimple("?session=deconnexion&email=" + _email + "&password=" + _password + "", "get");
         }
 
         public void RecuperationInfoUtiisateur()
