@@ -8,7 +8,7 @@
     class Reference
     {
         //Variables d'instances
-        private $_idReference, $_nomReference, $_nomImage, $_auteur, $_idType, $_livreReference, $_idUtilisateur;
+        private $_idReference, $_nomReference, $_nomImage, $_auteur, $_idType, $_livreReference, $_idLivre, $_description;
 
         //Propriétés
         public function getIdReference(){
@@ -42,7 +42,7 @@
         public function getIdType(){
             return $this->_idType;
         }
-        public function setIdType(int $idType){
+        public function setIdType($idType){
             $this->_idType = $idType;
         }
 
@@ -53,11 +53,18 @@
             $this->_livreReference = $LivreReference;
         }
 
-        public function getIdUtilisateur(){
-            return $this->_idUtilisateur;
+        public function getIdLivre(){
+            return $this->_idLivre;
         }
-        public function setIdUtilisateur(int $idUtilisateur){
-            $this->_idUtilisateur = $idUtilisateur;
+        public function setIdLivre(int $idLivre){
+            $this->_idLivre = $idLivre;
+        }
+
+        public function getDescription(){
+            return $this->_description;
+        }
+        public function setDescription($description){
+           $this->_description =  $description;
         }
 
         //Constructeur
@@ -68,11 +75,11 @@
          *  @param string varchar(100) $nomReference
          *  @param string varchar(255) $nomImage
          *  @param string varchar(100) $auteur
-         *  @param integer int(11) $idType
+         *  @param  int(11) $idType
          *  @param integer int(11) $livreReference
          *  @param integer int(11) $idUtilisateur
          */
-        function __construct(int $idReference, string $nomReference, string $nomImage, string $auteur, int $idType, int $livreReference, int $idUtilisateur)
+        function __construct(int $idReference, string $nomReference, string $nomImage, string $auteur, int $idType, int $livreReference, int $idLivre, int $description)
         {
             $this->_idReference = $idReference;
             $this->_nomReference = $nomReference;
@@ -80,7 +87,8 @@
             $this->_auteur = $auteur;
             $this->_idType = $idType;
             $this->_livreReference = $livreReference;
-            $this->_idUtilisateur = $idUtilisateur;
+            $this->_idLivre = $idLivre;
+            $this->_description = $description;
         }
 
         //Fonctions
@@ -94,10 +102,11 @@
                 "idReference" => $this->_idReference,
                 "nomReference" => $this->_nomReference,
                 "nomImage" => $this->_nomImage,
-                "auteur" => $this->_autuer,
+                "auteur" => $this->_auteur,
                 "idType" => $this->_idType,
                 "livreReference" => $this->_livreReference,
-                "idUtilisateur" => $this->_idUtilisateur
+                "idLivre" => $this->_idLivre,
+                "description" => $this->_description
             );
         }
     }

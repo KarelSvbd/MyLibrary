@@ -97,5 +97,16 @@ J'ai terminé plus de tâches que prévu, en plus du crud. J'ai implémenté la 
 
 ### 09.05.2022
 #### Objectifs
+Aujourd'hui je vais commencer à travailler sur la partie références. Ensuite, je vais refaire les card afin de les rendre plus jolies visuelement. 
 #### Déroulement
+07h40 : Début du travail sur la form references (ajout des composants)
+08h50 : Je vois à présent rendre la class card absrtaite afin de pouvoir l'utiliser pour afficher les références
+11h20 : Création des points d'entrées d'ajout de références
+12h40 : Visite de Mme Travnjak
+1. Consultation à propos de la form référence. Sinthétisation des 3 formulaires en un seul et ajouter le possibilité de séléctionner un livre existant ou d'en ajouter un.
+2. Fixation d'une défense à projet à blanc pour le 26 mai
+12h50 : Début du travail sur les points de la consultation
+14h00 : Erreur bloquante, impossible de faire un crud sur la table Reference
+15h00 : Mise à jour de la base de données pour les exigences du cahier des charges
 #### Conclusion
+Le bug bloquant n'a pas été corrigé, après avoir passé une heure sur le problème, j'ai redirigé mon attention vers des tâches moins complexes pour la journée.

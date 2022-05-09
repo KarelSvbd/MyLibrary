@@ -28,6 +28,14 @@ class MyLibrary
     private $_ajouterLivre = null;
     private $_rechercheLivreParAuteurOuTitre = null;
 
+    //Références
+    private $_referencesParLivre = null;
+    private $_ajouterReference = null;
+    private $_ajouterReferenceMusique;
+
+    //Types
+    private $_tousTypes = null;
+
     //Constructeur
     public function __construct()
     {
@@ -80,6 +88,24 @@ class MyLibrary
             $sql = "SELECT * FROM Livres WHERE auteur LIKE :auteur OR titre LIKE :titre AND idUtilisateur=:idUtilisateur";
             $this->_rechercheLivreParAuteurOuTitre = $this->_connexionPDO->prepare($sql);
             $this->_rechercheLivreParAuteurOuTitre->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
+
+            //Références
+            $sql = "SELECT * FROM References WHERE idLivre=:idLivre";
+            $this->_referencesParLivre = $this->_connexionPDO->prepare($sql);
+            $this->_referencesParLivre->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
+
+            $sql = "INSERT INTO References (nomReference, nomImage, auteur, idType, livreReference, idUtilisateur) VALUES(:nomReference, :nomImage, :auteur, :idType, :livreReference, :idUtilisateur);";
+            $this->_ajouterReference = $this->_connexionPDO->prepare($sql);
+            $this->_ajouterReference->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
+
+            $sql = "INSERT INTO References (nomReference, nomImage, auteur, idType, livreReference, idUtilisateur) VALUES(:nomReference, :nomImage, :auteur, :idType, null, :idUtilisateur)";
+            $this->_ajouterReferenceMusique = $this->_connexionPDO->prepare($sql);
+            $this->_ajouterReferenceMusique->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
+
+            //Types
+            $sql = "SELECT * FROM Types";
+            $this->_tousTypes = $this->_connexionPDO->prepare($sql);
+            $this->_tousTypes->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
 
         }
         catch (PDOException $e) {
@@ -203,5 +229,39 @@ class MyLibrary
         }
         return $arrayLivre;
     }
+
+    public function tousTypes(){
+        $this->_tousTypes->execute();
+        $resultat = $this->_tousTypes->fetchAll();
+
+        $arrayTitre = array();
+        foreach($resultat as $unType){
+            array_push($arrayTitre, new Type($unType[0], $unType[1]));
+        }
+        return $arrayTitre;
+    }
+
+    public function referencesParLivre(Livre $livre){
+        $this->_referencesParLivre->execute(array(':idLivre' => $livre->getIdLivre()));
+        $resultat = $this->_referencesParLivre->fetchAll();
+        $arrayReference = array();
+        foreach($resultat as $uneReference){
+            array_push($arrayReference, new Reference($uneReference[0], $uneReference[1], $uneReference[2], $uneReference[3], $uneReference[4], $uneReference[5], $uneReference[6], $uneReference[7]));
+        }
+        var_dump($resultat);
+        return $arrayReference;
+    }
+
+    /*public function ajouterReference(Reference $reference){
+        //:nomReference, :nomImage, :auteur, :idType, :livreReference, :idUtilisateur
+        error_log($this->_ajouterReference->execute(array(':nomReference' => $reference->getNomReference(), ':nomImage' => $reference->getNomImage(), ':auteur' => $reference->getAuteur(), ':idType' => $reference->getIdType(), ':livreReference' => $reference->getLivresReference(), ':idUtilisateur' => $reference->getIdUtilisateur())));
+        var_dump($this->_ajouterReference->fetch());
+    }*/
+
+    //:nomReference, :nomImage, :auteur, null, null, :idUtilisateur
+    /*public function ajouterReferenceMusique(Reference $reference){
+        $this->_ajouterReferenceMusique->execute(array(':nomReference' => $reference->getNomReference(), ':nomImage' => $reference->getNomImage(), ':auteur' => $reference->getAuteur(), ':idType' => $reference->getIdType(), ':idUtilisateur' => $reference->getIdUtilisateur()));
+    }*/
+
 }
 ?>

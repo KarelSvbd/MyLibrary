@@ -3,7 +3,7 @@
     Auteur  : Svoboda Karel Vilém
     Desc.   : API qui permet de gérer la base de données MyLibrary
     Date    : 08.05.2022
-    Version : 0.4.1
+    Version : 0.5
 */
 
 //autorisation des sources externes
@@ -141,8 +141,25 @@ if (isset($_GET["email"]) && $_GET["password"]) {
                         case "utilisateurs":
                             break;
                         case "references":
+                            if ($mydatabase->statusConnexionUtilisateur($_GET["email"]) == 1) {
+                                if (isset($_GET["idLivre"])) {
+                                    // <!> Ajout de la vérification si le livre appartient à l'utilisateur
+                                    http_response_code(200);
+                                    $response = array();
+                                    foreach($mydatabase->referencesParLivre(new Livre($_GET["idLivre"], "", "", "", 0)) as $reference){
+                                        array_push($response, $reference->returnArrayForJSON());
+                                    }
+                                }
+                            }
                             break;
                         case "types":
+                            if ($mydatabase->statusConnexionUtilisateur($_GET["email"]) == 1) {
+                                http_response_code(200);
+                                $response = array();
+                                foreach ($mydatabase->tousTypes() as $unType) {
+                                    array_push($response, $unType->returnArrayForJSON());
+                                }
+                            }
                             break;
                         default:
                             break;
@@ -163,16 +180,47 @@ if (isset($_GET["email"]) && $_GET["password"]) {
             break;
         case "POST":
 
-            //Ajout d'un livre
             //if($mydatabase->testConnexion(new Utilisateur()))
             if ($mydatabase->statusConnexionUtilisateur($_GET["email"]) == 1) {
-                if (isset($_GET["titre"]) && isset($_GET["auteur"]) && isset($_GET["nomImage"])) {
-                    //Création d'un objet Livre à partir des données dans le get
-                    $livre = new Livre(0, $_GET["titre"], $_GET["auteur"], $_GET["nomImage"], $mydatabase->recevoirUtilisateurParEmail($_GET["email"])->getIdUtilisateur());
-                    $mydatabase->ajouterLivre($livre);
-                    http_response_code(201);
-                    $response = $livre->returnArrayForJSON();
+                switch($_GET["table"]){
+                    case 'livres':
+                        if (isset($_GET["titre"]) && isset($_GET["auteur"]) && isset($_GET["nomImage"])) {
+                            //Création d'un objet Livre à partir des données dans le get
+                            $livre = new Livre(0, $_GET["titre"], $_GET["auteur"], $_GET["nomImage"], $mydatabase->recevoirUtilisateurParEmail($_GET["email"])->getIdUtilisateur());
+                            $mydatabase->ajouterLivre($livre);
+                            http_response_code(201);
+                            $response = $livre->returnArrayForJSON();
+                        }
+                        break;
+                    case 'reference':
+                        if(isset($_GET["idType"])){
+                            switch($_GET["idType"]){
+                                //livre
+                                case "0":
+                                    
+                                    break;
+                                //musique
+                                case "1":
+                                    if(isset($_GET["nomImage"]) && isset($_GET["nomReference"]) && isset($_GET["auteur"])){
+                                        /*$reference = new Reference(0, $_GET["nomReference"], $_GET["nomImage"], $_GET["auteur"], $_GET["idType"], 1, $mydatabase->recevoirUtilisateurParEmail($_GET["email"])->getIdUtilisateur());
+                                        $mydatabase->ajouterReference($reference);
+                                        http_response_code(201);
+                                        $response = $reference->returnArrayForJSON();*/
+                                    }
+                                    break;
+                                //lieu
+                                case '2':
+                                    break;
+                                default:
+                            }
+                            
+                        }
+                        // < ! > ajouter sécurité de isset
+
+                        break;
                 }
+
+                
             } else {
                 http_response_code(403);
                 $response = array(
