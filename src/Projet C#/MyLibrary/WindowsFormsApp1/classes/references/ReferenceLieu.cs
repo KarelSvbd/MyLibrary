@@ -1,4 +1,15 @@
-﻿using MyLibrary.classes;
+﻿/* Projet   : MyLibrary - TPI 2022
+ * Version  : 0.6
+ * Date     : 10.05.2022
+ * 
+ * Auteur   : Karel V. Svoboda
+ * Classe   : I.DA-P4A
+ * 
+ * Class    : ReferenceLieu.cs
+ * Decs.    : Vue de la collection des références d'un livre
+ */
+
+using MyLibrary.classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -121,7 +121,6 @@
             this.pbxImage.Size = new System.Drawing.Size(255, 125);
             this.pbxImage.TabIndex = 24;
             this.pbxImage.TabStop = false;
-            this.pbxImage.Click += new System.EventHandler(this.pbxImageMusique_Click);
             // 
             // btnImporterImage
             // 
@@ -132,7 +131,6 @@
             this.btnImporterImage.TabIndex = 23;
             this.btnImporterImage.Text = "Importer";
             this.btnImporterImage.UseVisualStyleBackColor = true;
-            this.btnImporterImage.Click += new System.EventHandler(this.btnImporterImage_Click);
             // 
             // tbxTitre
             // 
@@ -141,7 +139,6 @@
             this.tbxTitre.Name = "tbxTitre";
             this.tbxTitre.Size = new System.Drawing.Size(255, 20);
             this.tbxTitre.TabIndex = 22;
-            this.tbxTitre.TextChanged += new System.EventHandler(this.tbxTitreMusique_TextChanged);
             // 
             // tbxAuteur
             // 
@@ -150,7 +147,6 @@
             this.tbxAuteur.Name = "tbxAuteur";
             this.tbxAuteur.Size = new System.Drawing.Size(255, 20);
             this.tbxAuteur.TabIndex = 21;
-            this.tbxAuteur.TextChanged += new System.EventHandler(this.tbxAuteurMusique_TextChanged);
             // 
             // label2
             // 

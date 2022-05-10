@@ -1,12 +1,19 @@
-﻿using Newtonsoft.Json;
+﻿/* Projet   : MyLibrary - TPI 2022
+ * Version  : 0.6
+ * Date     : 10.05.2022
+ * 
+ * Auteur   : Karel V. Svoboda
+ * Classe   : I.DA-P4A
+ * 
+ * Class    : ClientRest.cs Class
+ * Decs.    : Sert à faire des appels à l'API
+ */
+
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace MyLibrary.classes
 {

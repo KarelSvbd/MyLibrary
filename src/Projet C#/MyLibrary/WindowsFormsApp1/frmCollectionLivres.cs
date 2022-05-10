@@ -1,11 +1,17 @@
-﻿using System;
+﻿/* Projet   : MyLibrary - TPI 2022
+ * Version  : 0.6
+ * Date     : 10.05.2022
+ * 
+ * Auteur   : Karel V. Svoboda
+ * Classe   : I.DA-P4A
+ * 
+ * Class    : frmCollectionLivres.cs Form
+ * Decs.    : Vue de la collection de Livres d'un utilisateur
+ */
+
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MyLibrary.classes;
 using WindowsFormsApp1;

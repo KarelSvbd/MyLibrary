@@ -1,33 +1,47 @@
-﻿using MyLibrary;
+﻿/* Projet   : MyLibrary - TPI 2022
+ * Version  : 0.6
+ * Date     : 10.05.2022
+ * 
+ * Auteur   : Karel V. Svoboda
+ * Classe   : I.DA-P4A
+ * 
+ * Class    : frmCollectionReferences.cs Form
+ * Decs.    : Vue de la collection des références d'un livre
+ */
+
+using MyLibrary;
 using MyLibrary.classes;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WindowsFormsApp1
 {
     public partial class frmCollectionReferences : Form
     {
+        //Variables d'instances
         private Livre _livre;
         private Utilisateur _utilisateur;
         private ClientRest _clientRest;
         private List<Reference> _references;
         private List<Card> _cardsReferences;
         private CardReference _cardSelectionne;
+
         //Référence ambigu 
         private List<MyLibrary.classes.Type> _types;
 
+        //Propriétés
         public Livre ObjLivre
         {
             get { return _livre; }
             set { _livre = value; }
         }
+        /// <summary>
+        /// Vue 
+        /// </summary>
+        /// <param name="livre"></param>
+        /// <param name="utilisateur"></param>
         public frmCollectionReferences(Livre livre, Utilisateur utilisateur)
         {
             _livre = livre;
@@ -79,12 +93,17 @@ namespace WindowsFormsApp1
 
         }
 
+        /// <summary>
+        /// Mise à jour des éléments de la vue
+        /// </summary>
         private void UpdateFormView()
         {
+            //Mise à 0 des List
             _references.Clear();
             _cardsReferences.Clear();
             flpReferences.Controls.Clear();
 
+            //récupération des éléments
             _references = _clientRest.ReferencesParLivre(_utilisateur, _livre);
 
             foreach (Reference reference in _references)
@@ -92,16 +111,19 @@ namespace WindowsFormsApp1
                 Card nouvelleCard;
                 switch (reference.IdType)
                 {
+                    //Livre
                     case 1:
                         nouvelleCard = new CardReferenceLivre(_utilisateur, reference, this);
                         flpReferences.Controls.Add(nouvelleCard);
                         _cardsReferences.Add(nouvelleCard);
                         break;
+                    //Musique
                     case 2:
                         nouvelleCard = new CardReferenceMusique(reference, this);
                         flpReferences.Controls.Add(nouvelleCard);
                         _cardsReferences.Add(nouvelleCard);
                         break;
+                    //Lieu
                     case 3:
                         nouvelleCard = new CardReferenceLieu(reference, this);
                         flpReferences.Controls.Add(nouvelleCard);
@@ -113,6 +135,10 @@ namespace WindowsFormsApp1
             //ActiverTousElements();
         }
 
+        /// <summary>
+        /// Mise à jour de l'états des inputs
+        /// </summary>
+        /// <param name="etat">True = activation, false = désactivation</param>
         private void EtatTousElements(bool etat)
         {
             btnImporterImage.Enabled = etat;
@@ -127,50 +153,18 @@ namespace WindowsFormsApp1
 
         }
 
-        private void tbxAuteurMusique_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void tbxTitreMusique_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void pbxImageMusique_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tbxAuteurLivre_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void tbxTitreLivre_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void cbxLivreExistant_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void tbxTitreLieu_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void tbxDescriptionLieu_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void btnImporterImage_Click(object sender, EventArgs e)
-        {
-
-        }
-
+        /// <summary>
+        /// Essaie de supprimer une référence affiche des popups en conséquence
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSupprimer_Click(object sender, EventArgs e)
         {
             DialogResult dr = MessageBox.Show("Voulez-vous vraiment supprimer cette référence", "Suppression de Référence", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 
             if (dr == DialogResult.Yes)
             {
+                //Essai de suppression de la référence
                 if (_cardSelectionne.ObjReference.DeleteReference(_utilisateur))
                 {
                     MessageBox.Show("La référence à été supprimée", "Référence Supprimée", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -199,20 +193,26 @@ namespace WindowsFormsApp1
 
         private void cbxType_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //Désactivation de tous les inputs
             EtatTousElements(false);
+
+            //Activation des inputs en fonction du type de référence
             switch (cbxType.SelectedIndex)
             {
+                //Livre
                 case 0:
                     tbxTitre.Enabled = true;
                     btnImporterImage.Enabled = true;
                     tbxAuteur.Enabled = true;
                     cbxLivre.Enabled = true;
                     break;
+                //Musique
                 case 1:
                     tbxTitre.Enabled = true;
                     btnImporterImage.Enabled = true;
                     tbxAuteur.Enabled = true;
                     break;
+                //Lieu
                 case 2:
                     tbxTitre.Enabled= true;
                     tbxDescription.Enabled = true;
@@ -220,9 +220,15 @@ namespace WindowsFormsApp1
             }
         }
 
+        /// <summary>
+        /// Se déclache lorsqu'une carte est séléctionnée
+        /// Sert à récupérer les données de la carte
+        /// </summary>
+        /// <param name="card">Card séléctionnée</param>
         public void SelectionCard(CardReference card)
         {
             _cardSelectionne = card;
+            //Changement de style pour les card et mise en évidence de la card séléctionnée 
             foreach(var uneCard in _cardsReferences)
             {
                 if(uneCard == card)
@@ -238,17 +244,20 @@ namespace WindowsFormsApp1
                 
             }
 
+            //Mise en place des données dans les inputs
             switch (card.ObjReference.IdType){
+                //Livre
                 case 1:
                     cbxType.SelectedIndex = 0;
                     break;
+                //Musique
                 case 2:
-                    
                     tbxTitre.Text = card.ObjReference.NomReference;
                     tbxAuteur.Text = card.ObjReference.Auteur;
                     tbxDescription.Text = card.ObjReference.Description;
                     cbxType.SelectedIndex = 1;
                     break;
+                //Lieu
                 case 3:
                     tbxTitre.Text = card.ObjReference.NomReference;
                     tbxAuteur.Text=card.ObjReference.Auteur;

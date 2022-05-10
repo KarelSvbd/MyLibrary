@@ -1,4 +1,15 @@
-﻿using MyLibrary.classes;
+﻿/* Projet   : MyLibrary - TPI 2022
+ * Version  : 0.6
+ * Date     : 10.05.2022
+ * 
+ * Auteur   : Karel V. Svoboda
+ * Classe   : I.DA-P4A
+ * 
+ * Class    : frmConnexion.cs Form
+ * Decs.    : Vue de la connexion
+ */
+
+using MyLibrary.classes;
 using System;
 using System.Security.Cryptography;
 using System.Text;
