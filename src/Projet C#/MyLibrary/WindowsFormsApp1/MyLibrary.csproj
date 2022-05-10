@@ -55,6 +55,9 @@
     <Compile Include="classes\compostants\CardLivre.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="classes\compostants\CardReference.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="classes\compostants\CardReferenceLieu.cs">
       <SubType>Component</SubType>
     </Compile>

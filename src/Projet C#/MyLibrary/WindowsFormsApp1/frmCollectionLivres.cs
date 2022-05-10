@@ -207,5 +207,15 @@ namespace MyLibrary
             frmCollectionReferences collectionReferences = new frmCollectionReferences(livre, _utilisateur);
             collectionReferences.Show();
         }
+
+        private void pbxImageAjouter_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblTitre_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

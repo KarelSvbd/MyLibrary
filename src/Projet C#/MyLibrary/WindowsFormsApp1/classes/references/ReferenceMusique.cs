@@ -8,36 +8,18 @@ using System.Threading.Tasks;
 
 namespace MyLibrary
 {
-    public class ReferenceMusique
+    public class ReferenceMusique : Reference
     {
-        private Image _pochette;
-        private string _titre;
-        private string _auteur;
-        private Reference _reference;
+        public ReferenceMusique(int idReference, string nomImage, string titre, string auteur, int idLivre) : base(idReference, titre, nomImage, auteur, 2, 0, idLivre, ""){ }
 
-        public Image Pochette
+        public override bool PostReference(Utilisateur utilisateur)
         {
-            get { return _pochette; }
-            set { _pochette = value; }
+            return ClientRest.Instance.AppelSimple("?table=references&email=" + utilisateur.Email + "&password=" + utilisateur.Password + "&nomReference=" + NomReference + "&auteur=" + Auteur + "&nomImage=" + NomImage + "&idLivre=" + IdLivre + "&idType=" +IdType+ "", "POST");
         }
 
-        public string Titre
+        public override bool PutReference(Utilisateur utilisateur, Reference reference)
         {
-            get { return _titre; }
-            set { _titre = value; }
-        }
-
-        public string Auteur
-        {
-            get { return _auteur; }
-            set { _auteur = value; }
-        }
-
-        public ReferenceMusique(Image pochette, string titre, string auteur)
-        {
-            _pochette = pochette;
-            _titre = titre;
-            _auteur = auteur;
+            return ClientRest.Instance.AppelSimple("?table=references&idReference="+reference.IdReference.ToString()+"&email=" + utilisateur.Email + "&password=" + utilisateur.Password + "&nomReference=" + NomReference + "&auteur=" + Auteur + "&nomImage=" + NomImage + "&idLivre=" + IdLivre + "&idType=" + IdType + "", "PUT");
         }
     }
 }

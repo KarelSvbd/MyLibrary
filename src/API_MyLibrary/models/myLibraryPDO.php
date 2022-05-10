@@ -25,13 +25,18 @@ class MyLibrary
 
     //Livres
     private $_afficherLivreParIdUtilisateur = null;
+    private $_rechercheLivreParIdLivre = null;
     private $_ajouterLivre = null;
     private $_rechercheLivreParAuteurOuTitre = null;
 
     //Références
     private $_referencesParLivre = null;
     private $_ajouterReference = null;
+
+    
     private $_ajouterReferenceMusique;
+    private $_modifierReferenceMusique;
+    private $_supprimerReferenceMusique;
 
     //Types
     private $_tousTypes = null;
@@ -73,6 +78,10 @@ class MyLibrary
             $this->_ajouterLivre = $this->_connexionPDO->prepare($sql);
             $this->_ajouterLivre->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
 
+            $sql = "SELECT * FROM Livres WHERE idLivre=:idLivre";
+            $this->_rechercheLivreParIdLivre = $this->_connexionPDO->prepare($sql);
+            $this->_rechercheLivreParIdLivre->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
+
             $sql = "UPDATE Livres SET titre=:titre, auteur=:auteur, nomImage=:nomImage WHERE idLivre=:idLivre;";
             $this->_modifierLivre = $this->_connexionPDO->prepare($sql);
             $this->_modifierLivre->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
@@ -90,17 +99,26 @@ class MyLibrary
             $this->_rechercheLivreParAuteurOuTitre->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
 
             //Références
-            $sql = "SELECT * FROM References WHERE idLivre=:idLivre";
+            $sql = "SELECT * FROM MyLibrary.References WHERE idLivre=:idLivre";
             $this->_referencesParLivre = $this->_connexionPDO->prepare($sql);
             $this->_referencesParLivre->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
 
-            $sql = "INSERT INTO References (nomReference, nomImage, auteur, idType, livreReference, idUtilisateur) VALUES(:nomReference, :nomImage, :auteur, :idType, :livreReference, :idUtilisateur);";
+            $sql = "INSERT INTO MyLibrary.References (nomReference, nomImage, auteur, idType, livreReference, MyLibrary.References.description) VALUES(:nomReference, :nomImage, :auteur, :idType, :livreReference, :description);";
             $this->_ajouterReference = $this->_connexionPDO->prepare($sql);
             $this->_ajouterReference->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
 
-            $sql = "INSERT INTO References (nomReference, nomImage, auteur, idType, livreReference, idUtilisateur) VALUES(:nomReference, :nomImage, :auteur, :idType, null, :idUtilisateur)";
+                // Référence type musique
+            $sql = "INSERT INTO MyLibrary.References (nomReference, nomImage, idType, auteur, idLivre) VALUES(:nomReference, :nomImage, :idType, :auteur, :idLivre);";
             $this->_ajouterReferenceMusique = $this->_connexionPDO->prepare($sql);
             $this->_ajouterReferenceMusique->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
+
+            $sql = "UPDATE MyLibrary.References SET nomReference=:nomReference, nomImage=:nomImage, idType=:idType, auteur=:auteur, idLivre=:idLivre WHERE idReference=:idReference;";
+            $this->_modifierReferenceMusique = $this->_connexionPDO->prepare($sql);
+            $this->_modifierReferenceMusique->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
+
+            $sql = "DELETE FROM MyLibrary.References WHERE idReference=:idReference;";
+            $this->_supprimerReference = $this->_connexionPDO->prepare($sql);
+            $this->_supprimerReference->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
 
             //Types
             $sql = "SELECT * FROM Types";
@@ -248,20 +266,34 @@ class MyLibrary
         foreach($resultat as $uneReference){
             array_push($arrayReference, new Reference($uneReference[0], $uneReference[1], $uneReference[2], $uneReference[3], $uneReference[4], $uneReference[5], $uneReference[6], $uneReference[7]));
         }
-        var_dump($resultat);
         return $arrayReference;
     }
 
-    /*public function ajouterReference(Reference $reference){
-        //:nomReference, :nomImage, :auteur, :idType, :livreReference, :idUtilisateur
-        error_log($this->_ajouterReference->execute(array(':nomReference' => $reference->getNomReference(), ':nomImage' => $reference->getNomImage(), ':auteur' => $reference->getAuteur(), ':idType' => $reference->getIdType(), ':livreReference' => $reference->getLivresReference(), ':idUtilisateur' => $reference->getIdUtilisateur())));
-        var_dump($this->_ajouterReference->fetch());
-    }*/
+    public function rechercheLivreParIdLivre(int $idLivre){
+        $this->_rechercheLivreParIdLivre->execute(array(':idLivre' => $idLivre));
+        $resultat = $this->_rechercheLivreParIdLivre->fetchAll();
+        return new Livre($resultat[0][0], $resultat[0][1], $resultat[0][2], $resultat[0][3], $resultat[0][4]);
+    }
 
-    //:nomReference, :nomImage, :auteur, null, null, :idUtilisateur
-    /*public function ajouterReferenceMusique(Reference $reference){
-        $this->_ajouterReferenceMusique->execute(array(':nomReference' => $reference->getNomReference(), ':nomImage' => $reference->getNomImage(), ':auteur' => $reference->getAuteur(), ':idType' => $reference->getIdType(), ':idUtilisateur' => $reference->getIdUtilisateur()));
-    }*/
+    public function ajouterReference(Reference $reference){
+        //:nomReference, :nomImage, :auteur, :idType, :livreReference, :idUtilisateur
+        error_log($this->_ajouterReference->execute(array(':nomReference' => $reference->getNomReference(), ':nomImage' => $reference->getNomImage(), ':auteur' => $reference->getAuteur(), ':idType' => $reference->getIdType(), ':livreReference' => $reference->getLivresReference(), ':description' => $reference->getDescription())));
+        var_dump($this->_ajouterReference->fetch());
+    }
+
+    //:nomReference, :nomImage, :auteur, :idLivre, :idType
+    public function ajouterReferenceMusique(Reference $reference){
+        $this->_ajouterReferenceMusique->execute(array(':nomReference' => $reference->getNomReference(), ':nomImage' => $reference->getNomImage(), ':auteur' => $reference->getAuteur(), ':idLivre' => $reference->getIdLivre(),  ':idType' => $reference->getIdType()));
+    }
+
+    //private $_modifierReferenceMusique; private $_supprimerReferenceMusique;
+    public function modifierReferenceMusique(Reference $reference){
+        $this->_modifierReferenceMusique->execute(array(':idReference' => $reference->getIdReference(), ':nomReference' => $reference->getNomReference(), ':nomImage' => $reference->getNomImage(), ':auteur' => $reference->getAuteur(), ':idLivre' => $reference->getIdLivre(),  ':idType' => $reference->getIdType()));
+    }
+
+    public function supprimerReference(Reference $reference){
+        $this->_supprimerReference->execute(array(':idReference' => $reference->getIdReference()));
+    }
 
 }
 ?>

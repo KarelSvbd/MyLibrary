@@ -14,28 +14,28 @@
         public function getIdReference(){
             return $this->_idReference;
         }
-        public function setIdReference(int $idReference){
+        public function setIdReference($idReference){
             $this->_idReference = $idReference;
         }
 
         public function getNomReference(){
             return $this->_nomReference;
         }
-        public function setNomReference(string $nomReference){
+        public function setNomReference($nomReference){
             $this->_nomReference = $nomReference;
         }
 
         public function getNomImage(){
             return $this->_nomImage;
         }
-        public function setNomImage(string $nomImage){
+        public function setNomImage($nomImage){
             $this->_nomImage = $nomImage;
         }
 
         public function getAuteur(){
             return $this->_auteur;
         }
-        public function setAuteur(string $auteur){
+        public function setAuteur($auteur){
             $this->_auteur = $auteur;
         }
 
@@ -49,14 +49,14 @@
         public function getLivresReference(){
             return $this->_livreReference;
         }
-        public function setLivresReference(string $LivreReference){
+        public function setLivresReference($LivreReference){
             $this->_livreReference = $LivreReference;
         }
 
         public function getIdLivre(){
             return $this->_idLivre;
         }
-        public function setIdLivre(int $idLivre){
+        public function setIdLivre($idLivre){
             $this->_idLivre = $idLivre;
         }
 
@@ -79,7 +79,7 @@
          *  @param integer int(11) $livreReference
          *  @param integer int(11) $idUtilisateur
          */
-        function __construct(int $idReference, string $nomReference, string $nomImage, string $auteur, int $idType, int $livreReference, int $idLivre, int $description)
+        function __construct($idReference, $nomReference, $nomImage, $auteur, $idType, $livreReference, $idLivre, $description)
         {
             $this->_idReference = $idReference;
             $this->_nomReference = $nomReference;

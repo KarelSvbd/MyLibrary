@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.lblTitreLivre = new System.Windows.Forms.Label();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.flpReferences = new System.Windows.Forms.FlowLayoutPanel();
             this.btnAjouter = new System.Windows.Forms.Button();
             this.lblTxtReference = new System.Windows.Forms.Label();
             this.btnModifier = new System.Windows.Forms.Button();
@@ -61,13 +61,13 @@
             this.lblTitreLivre.TabIndex = 0;
             this.lblTitreLivre.Text = "Titre livre";
             // 
-            // flowLayoutPanel1
+            // flpReferences
             // 
-            this.flowLayoutPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 60);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(888, 645);
-            this.flowLayoutPanel1.TabIndex = 1;
+            this.flpReferences.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.flpReferences.Location = new System.Drawing.Point(12, 60);
+            this.flpReferences.Name = "flpReferences";
+            this.flpReferences.Size = new System.Drawing.Size(888, 645);
+            this.flpReferences.TabIndex = 1;
             // 
             // btnAjouter
             // 
@@ -100,6 +100,7 @@
             this.btnModifier.TabIndex = 6;
             this.btnModifier.Text = "Modifier";
             this.btnModifier.UseVisualStyleBackColor = true;
+            this.btnModifier.Click += new System.EventHandler(this.btnModifier_Click);
             // 
             // btnSupprimer
             // 
@@ -114,6 +115,7 @@
             // 
             // pbxImage
             // 
+            this.pbxImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pbxImage.Location = new System.Drawing.Point(962, 236);
             this.pbxImage.Name = "pbxImage";
             this.pbxImage.Size = new System.Drawing.Size(255, 125);
@@ -227,6 +229,7 @@
             this.cbxType.Name = "cbxType";
             this.cbxType.Size = new System.Drawing.Size(255, 21);
             this.cbxType.TabIndex = 30;
+            this.cbxType.SelectedIndexChanged += new System.EventHandler(this.cbxType_SelectedIndexChanged);
             // 
             // label4
             // 
@@ -260,7 +263,7 @@
             this.Controls.Add(this.btnModifier);
             this.Controls.Add(this.lblTxtReference);
             this.Controls.Add(this.btnAjouter);
-            this.Controls.Add(this.flowLayoutPanel1);
+            this.Controls.Add(this.flpReferences);
             this.Controls.Add(this.lblTitreLivre);
             this.Name = "frmCollectionReferences";
             this.Text = "Références ";
@@ -273,7 +276,7 @@
         #endregion
 
         private System.Windows.Forms.Label lblTitreLivre;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel flpReferences;
         private System.Windows.Forms.Button btnAjouter;
         private System.Windows.Forms.Label lblTxtReference;
         private System.Windows.Forms.Button btnModifier;

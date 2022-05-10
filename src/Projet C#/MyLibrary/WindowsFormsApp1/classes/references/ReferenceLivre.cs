@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace MyLibrary
 {
-    public class ReferenceLivre : Livre
+    public class ReferenceLivre : Reference
     {
-        public ReferenceLivre(int idLivre, string titre, string auteur, string nomImage, int idUtilisateur) : base(idLivre, titre, auteur, nomImage, idUtilisateur) { }
+        public ReferenceLivre(int idReference, int idLivreReference, int idLivre) : base(idReference, "", "", "", 1, idLivreReference, idLivre, "") { }
     }
 }
