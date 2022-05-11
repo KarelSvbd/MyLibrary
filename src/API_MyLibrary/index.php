@@ -200,12 +200,35 @@ if (isset($_GET["email"]) && $_GET["password"]) {
                         }
                         break;
                     case 'references':
-                        var_dump("test");
                         if(isset($_GET["idType"])){
                             switch($_GET["idType"]){
                                 //livre
                                 case "1":
-                                    http_response_code(404);
+                                    if (isset($_GET["nomReference"]) && isset($_GET["auteur"]) && isset($_GET["nomImage"]) && isset($_GET["idLivre"])) {
+                                        //Création d'un livre à partir des données de la référence
+                                        $livre = new Livre(0, $_GET["nomReference"], $_GET["auteur"], $_GET["nomImage"], $mydatabase->recevoirUtilisateurParEmail($_GET["email"])->getIdUtilisateur());
+                                        $mydatabase->ajouterLivre($livre);
+                                        //récupération du dernier idLivre et passage dans l'objet grâce au SET
+                                        $livre->setIdLivre($mydatabase->dernierLivreUtilisateur($mydatabase->recevoirUtilisateurParEmail($_GET["email"]))->getIdLivre());
+
+                                        $referenceLivre = $livre->ReferenceDeLivre(new Livre($_GET["idLivre"], "", "", "", 0));
+
+                                        //envoie de la référence à la base
+                                        $mydatabase->ajouterReferenceLivre($referenceLivre);
+                                        http_response_code(201);
+                                        $response = $referenceLivre->returnArrayForJSON();
+                                    }
+                                    else if(isset($_GET["livreReference"]) && isset($_GET["idLivre"])){
+                                        $referenceLivre = new Reference(0, "", "", "", $_GET["idType"], $_GET["livreReference"], $_GET["idLivre"], "");
+
+                                        //envoie de la référence à la base
+                                        $mydatabase->ajouterReferenceLivre($referenceLivre);
+                                        http_response_code(201);
+                                        $response = $referenceLivre->returnArrayForJSON();
+                                    }
+                                    else{
+                                        http_response_code(401);
+                                    }
                                     break;
                                 //musique
                                 case "2":
@@ -221,7 +244,16 @@ if (isset($_GET["email"]) && $_GET["password"]) {
                                     break;
                                 //lieu
                                 case '3':
-                                    http_response_code(404);
+                                    if (isset($_GET["nomReference"]) && isset($_GET["descriptionLieu"]) && isset($_GET["idLivre"])) {
+                                        
+                                        $reference = new Reference(0, $_GET["nomReference"], "", "", $_GET["idType"], 0, $_GET["idLivre"], $_GET["descriptionLieu"]);
+                                        $mydatabase->ajouterReferenceLieu($reference);
+                                        http_response_code(201);
+                                        $response = $reference->returnArrayForJSON();
+                                    }
+                                    else{
+                                        http_response_code(401);
+                                    }
                                     break;
                                 default:
                             }
@@ -258,11 +290,16 @@ if (isset($_GET["email"]) && $_GET["password"]) {
                                 switch($_GET["idType"]){
                                     //livre
                                     case "1":
-                                        http_response_code(404);
+                                        if (isset($_GET["livreReference"]) && isset($_GET["titre"]) && isset($_GET["auteur"]) && isset($_GET["nomImage"])) {
+                                            //Création d'un objet Livre à partir des données dans le get
+                                            $livre = new Livre($_GET["livreReference"], $_GET["titre"], $_GET["auteur"], $_GET["nomImage"], $mydatabase->recevoirUtilisateurParEmail($_GET["email"])->getIdUtilisateur());
+                                            $mydatabase->modifierLivre($livre);
+                                            http_response_code(201);
+                                            $response = $livre->returnArrayForJSON();
+                                        }
                                         break;
                                     //musique
                                     case "2":
-                                        var_dump("test");
                                         if(isset($_GET["idReference"]) && isset($_GET["nomImage"]) && isset($_GET["nomReference"]) && isset($_GET["auteur"]) && isset($_GET["idLivre"])){
                                             $reference = new Reference($_GET["idReference"], $_GET["nomReference"], $_GET["nomImage"], $_GET["auteur"], $_GET["idType"], 0, $_GET["idLivre"], "");
                                             $mydatabase->modifierReferenceMusique($reference);
@@ -274,8 +311,18 @@ if (isset($_GET["email"]) && $_GET["password"]) {
                                         }
                                         break;
                                     //lieu
+                                    
                                     case '3':
-                                        http_response_code(404);
+                                        if (isset($_GET["nomReference"]) && isset($_GET["descriptionLieu"]) && isset($_GET["idLivre"])) {
+                                            $reference = new Reference($_GET["idReference"], $_GET["nomReference"], "", "", $_GET["idType"], 0, $_GET["idLivre"], $_GET["descriptionLieu"]);
+                                            $mydatabase->modifierReferenceLieu($reference);
+                                            http_response_code(201);
+                                            $response = $reference->returnArrayForJSON();
+                                        }
+                                        else{
+                                            http_response_code(404);
+                                        }
+                                        //modifierReferenceLieu
                                         break;
                                     default:
                                 }

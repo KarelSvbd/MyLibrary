@@ -80,5 +80,9 @@
                 "idUtilisateur" => $this->_idUtilisateur
             );
         }
+
+        public function ReferenceDeLivre(Livre $livre){
+            return new Reference(0, "", "", "", 1, $this->_idLivre, $livre->getIdLivre(), "");
+        }
     }
 ?>

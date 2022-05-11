@@ -28,6 +28,7 @@ class MyLibrary
     private $_rechercheLivreParIdLivre = null;
     private $_ajouterLivre = null;
     private $_rechercheLivreParAuteurOuTitre = null;
+    private $_dernierLivreUtilisateur = null;
 
     //Références
     private $_referencesParLivre = null;
@@ -36,7 +37,11 @@ class MyLibrary
     
     private $_ajouterReferenceMusique;
     private $_modifierReferenceMusique;
-    private $_supprimerReferenceMusique;
+
+    private $_ajouterReferenceLivre;
+
+    private $_ajouterReferenceLieu;
+    private $_modifierReferenceLieu;
 
     //Types
     private $_tousTypes = null;
@@ -97,15 +102,19 @@ class MyLibrary
             $sql = "SELECT * FROM Livres WHERE auteur LIKE :auteur OR titre LIKE :titre AND idUtilisateur=:idUtilisateur";
             $this->_rechercheLivreParAuteurOuTitre = $this->_connexionPDO->prepare($sql);
             $this->_rechercheLivreParAuteurOuTitre->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
+            //dernierIdLivre
+            $sql = "SELECT * FROM Livres WHERE idUtilisateur=:idUtilisateur ORDER BY idLivre DESC LIMIT 1";
+            $this->_dernierLivreUtilisateur = $this->_connexionPDO->prepare($sql);
+            $this->_dernierLivreUtilisateur->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
 
             //Références
             $sql = "SELECT * FROM MyLibrary.References WHERE idLivre=:idLivre";
             $this->_referencesParLivre = $this->_connexionPDO->prepare($sql);
             $this->_referencesParLivre->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
 
-            $sql = "INSERT INTO MyLibrary.References (nomReference, nomImage, auteur, idType, livreReference, MyLibrary.References.description) VALUES(:nomReference, :nomImage, :auteur, :idType, :livreReference, :description);";
-            $this->_ajouterReference = $this->_connexionPDO->prepare($sql);
-            $this->_ajouterReference->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
+            $sql = "DELETE FROM MyLibrary.References WHERE idReference=:idReference;";
+            $this->_supprimerReference = $this->_connexionPDO->prepare($sql);
+            $this->_supprimerReference->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
 
                 // Référence type musique
             $sql = "INSERT INTO MyLibrary.References (nomReference, nomImage, idType, auteur, idLivre) VALUES(:nomReference, :nomImage, :idType, :auteur, :idLivre);";
@@ -116,9 +125,19 @@ class MyLibrary
             $this->_modifierReferenceMusique = $this->_connexionPDO->prepare($sql);
             $this->_modifierReferenceMusique->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
 
-            $sql = "DELETE FROM MyLibrary.References WHERE idReference=:idReference;";
-            $this->_supprimerReference = $this->_connexionPDO->prepare($sql);
-            $this->_supprimerReference->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
+                // Référence type Livre
+            $sql = "INSERT INTO MyLibrary.References (livreReference, idType, idLivre) VALUES(:livreReference, :idType, :idLivre);";
+            $this->_ajouterReferenceLivre = $this->_connexionPDO->prepare($sql);
+            $this->_ajouterReferenceLivre->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
+
+                // Référence type Lieu
+            $sql = "INSERT INTO MyLibrary.References (nomReference, idType, idLivre, descriptionLieu) VALUES(:nomReference, :idType, :idLivre, :descriptionLieu);";
+                $this->_ajouterReferenceLieu = $this->_connexionPDO->prepare($sql);
+                $this->_ajouterReferenceLieu->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
+            
+                $sql = "UPDATE MyLibrary.References SET nomReference=:nomReference, idType=:idType, idLivre=:idLivre, descriptionLieu=:descriptionLieu WHERE idReference=:idReference;";
+            $this->_modifierReferenceLieu = $this->_connexionPDO->prepare($sql);
+            $this->_modifierReferenceLieu->setFetchMode(PDO::FETCH_ASSOC, 'MyLibrary');
 
             //Types
             $sql = "SELECT * FROM Types";
@@ -232,6 +251,16 @@ class MyLibrary
         return $arrayLivre;
     }
 
+    public function dernierLivreUtilisateur(Utilisateur $utilisateur){
+        $this->_dernierLivreUtilisateur->execute(array(':idUtilisateur' => $utilisateur->getIdUtilisateur()));
+        $resultat = $this->_dernierLivreUtilisateur->fetchAll();
+        $arrayLivre = array();
+        foreach($resultat as $unLivre){
+            array_push($arrayLivre, new Livre($unLivre[0], $unLivre[1], $unLivre[2], $unLivre[3], $unLivre[4]));
+        }
+        return $arrayLivre[0];
+    }
+
     /** Permet de faire une recherche grâce à un filtre personnalisé. Le programme va chercher dans la base les éléments de l'utilisateur avec les filtres en quesiton sous les tables Auteur et Titre
      * 
      * @Utilisateur $utilisateur utilisateur qui fait la requête
@@ -277,7 +306,7 @@ class MyLibrary
 
     public function ajouterReference(Reference $reference){
         //:nomReference, :nomImage, :auteur, :idType, :livreReference, :idUtilisateur
-        error_log($this->_ajouterReference->execute(array(':nomReference' => $reference->getNomReference(), ':nomImage' => $reference->getNomImage(), ':auteur' => $reference->getAuteur(), ':idType' => $reference->getIdType(), ':livreReference' => $reference->getLivresReference(), ':description' => $reference->getDescription())));
+        error_log($this->_ajouterReference->execute(array(':nomReference' => $reference->getNomReference(), ':nomImage' => $reference->getNomImage(), ':auteur' => $reference->getAuteur(), ':idType' => $reference->getIdType(), ':livreReference' => $reference->getLivreReference(), ':resume' => $reference->getDescriptionLieu())));
         var_dump($this->_ajouterReference->fetch());
     }
 
@@ -295,5 +324,19 @@ class MyLibrary
         $this->_supprimerReference->execute(array(':idReference' => $reference->getIdReference()));
     }
 
+    public function ajouterReferenceLivre(Reference $reference){
+        //$this->_ajouterReferenceLivre->execute(array(':livreReference' => $reference->getLivreReference(), ':idLivre' => $reference->getIdLivre(),  ':idType' => $reference->getIdType()));
+        $this->_ajouterReferenceLivre->execute(array(':livreReference' => $reference->getLivreReference(), ':idLivre' => $reference->getIdLivre(),  ':idType' => $reference->getIdType()));
+    }
+
+    //:nomReference, :descriptionLieu :idType, :idLivre
+    public function ajouterReferenceLieu(Reference $reference){
+        $this->_ajouterReferenceLieu->execute(array(':nomReference' => $reference->getNomReference(), ':descriptionLieu' => $reference->getDescriptionLieu(), ':idType' => $reference->getIdType(), ':idLivre' => $reference->getIdLivre()));
+        //$this->_ajouterReferenceLieu->execute(array(':nomReference' => "nom", ':descriptionLieu' => "description", ':idType' => 3, ':idLivre' => 1));
+    }
+
+    public function modifierReferenceLieu(Reference $reference){
+        $this->_modifierReferenceLieu->execute(array(':idReference' => $reference->getIdReference(), ':nomReference' => $reference->getNomReference(),   ':idLivre' => $reference->getIdLivre(),  ':idType' => $reference->getIdType(), ':descriptionLieu' => $reference->getDescriptionLieu()));
+    }
 }
 ?>

@@ -10,11 +10,11 @@ using WindowsFormsApp1;
 
 namespace MyLibrary
 {
-    public class CardReferenceLivre : Card
+    public class CardReferenceLivre : CardReference
     {
         private Livre _livre;
         private PictureBox _image;
-        public CardReferenceLivre(Livre livre, frmCollectionReferences frm) : base()
+        public CardReferenceLivre(Livre livre, Reference reference, frmCollectionReferences frm) : base(reference, frm)
         {
             _livre = livre;
             _image = new PictureBox();
@@ -45,13 +45,13 @@ namespace MyLibrary
             Controls.Add(lbltxtTitre);
         }
 
-        public CardReferenceLivre(Utilisateur utilisateur, Reference referenceLivre, frmCollectionReferences frm) : this(ClientRest.Instance.LivreParIdLivre(utilisateur, referenceLivre.IdLivre)[0], frm)
+        public CardReferenceLivre(Utilisateur utilisateur, Reference referenceLivre, frmCollectionReferences frm) : this(ClientRest.Instance.LivreParIdLivre(utilisateur, referenceLivre.IdLivre)[0], referenceLivre, frm)
         {
             
         }
         protected override void ClickCard(object o, EventArgs e)
         {
-            throw new NotImplementedException();
+            Frm.SelectionCard(this);
         }
     }
 }

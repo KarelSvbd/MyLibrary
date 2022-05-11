@@ -26,6 +26,7 @@ namespace WindowsFormsApp1
         private ClientRest _clientRest;
         private List<Reference> _references;
         private List<Card> _cardsReferences;
+        private List<Livre> _livres;
         private CardReference _cardSelectionne;
 
         //Référence ambigu 
@@ -55,6 +56,7 @@ namespace WindowsFormsApp1
             lblTitreLivre.Text = _livre.Titre;
             _clientRest = ClientRest.Instance;
             _types = _clientRest.TousTypes(_utilisateur);
+            _livres = _clientRest.LivresParUtilisateur(_utilisateur);
             majCbxTypes(_types);
             
             UpdateFormView();
@@ -62,20 +64,57 @@ namespace WindowsFormsApp1
             btnModifier.Enabled = true;
             btnSupprimer.Enabled = true;
 
+            
+
         }
 
         private void btnAjouter_Click(object sender, EventArgs e)
         {
             //Ajout test de la combobox
-            if(new ReferenceMusique(0, "à ajouter", tbxTitre.Text, tbxAuteur.Text, ObjLivre.IdLivre).PostReference(_utilisateur))
+            switch (cbxType.SelectedIndex)
             {
-                MessageBox.Show("La référence à été ajoutée", "Référence Ajoutée", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                UpdateFormView();
+                case 0:
+                    if(cbxLivre.SelectedIndex == 0)
+                    {
+                        //new ReferenceLivre(0)
+                        
+                    }
+                    else
+                    {
+                        if (new ReferenceLivre(0, _livres[cbxLivre.SelectedIndex - 1].IdLivre, _livre.IdLivre).PostReference(_utilisateur))
+                        {
+                            Console.WriteLine(_livres[cbxLivre.SelectedIndex - 1].IdLivre + " " +_livre.IdLivre);
+                            MessageBox.Show("La référence à été ajoutée", "Référence Ajoutée", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            UpdateFormView();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Un problème s'est produit lors de l'envoie de la donnée", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    break;
+                case 1:
+                    if (new ReferenceMusique(0, "à ajouter", tbxTitre.Text, tbxAuteur.Text, ObjLivre.IdLivre).PostReference(_utilisateur))
+                    {
+                        MessageBox.Show("La référence à été ajoutée", "Référence Ajoutée", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        UpdateFormView();
+                    } else{
+                        MessageBox.Show("Un problème s'est produit lors de l'envoie de la donnée", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    break;
+                case 2:
+                    if (new ReferenceLieu(0, tbxTitre.Text, tbxDescription.Text, ObjLivre.IdLivre).PostReference(_utilisateur))
+                    {
+                        MessageBox.Show("La référence à été ajoutée", "Référence Ajoutée", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        UpdateFormView();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Un problème s'est produit lors de l'envoie de la donnée", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    break;
             }
-            else
-            {
-                MessageBox.Show("Un problème s'est produit lors de l'envoie de la donnée", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            
         }
 
         private void lblTxtReference_Click(object sender, EventArgs e)
@@ -105,6 +144,15 @@ namespace WindowsFormsApp1
 
             //récupération des éléments
             _references = _clientRest.ReferencesParLivre(_utilisateur, _livre);
+
+            cbxLivre.Items.Add("-- NOUVEAU LIVRE --");
+            foreach (Livre lvr in _livres)
+            {
+                cbxLivre.Items.Add(lvr.Titre);
+            }
+            cbxLivre.SelectedIndex = 0;
+
+            
 
             foreach (Reference reference in _references)
             {
@@ -227,11 +275,15 @@ namespace WindowsFormsApp1
         /// <param name="card">Card séléctionnée</param>
         public void SelectionCard(CardReference card)
         {
+            cbxType.Enabled = false;
             _cardSelectionne = card;
+            btnAjouter.Enabled = false;
+            btnModifier.Enabled = true;
+            btnSupprimer.Enabled = true;
             //Changement de style pour les card et mise en évidence de la card séléctionnée 
-            foreach(var uneCard in _cardsReferences)
+            foreach (var uneCard in _cardsReferences)
             {
-                if(uneCard == card)
+                if (uneCard == card)
                 {
                     card.BackColor = Color.Gray;
                     card.ForeColor = Color.White;
@@ -241,11 +293,12 @@ namespace WindowsFormsApp1
                     uneCard.BackColor = Color.White;
                     uneCard.ForeColor = Color.Black;
                 }
-                
+
             }
 
             //Mise en place des données dans les inputs
-            switch (card.ObjReference.IdType){
+            switch (card.ObjReference.IdType)
+            {
                 //Livre
                 case 1:
                     cbxType.SelectedIndex = 0;
@@ -254,29 +307,107 @@ namespace WindowsFormsApp1
                 case 2:
                     tbxTitre.Text = card.ObjReference.NomReference;
                     tbxAuteur.Text = card.ObjReference.Auteur;
-                    tbxDescription.Text = card.ObjReference.Description;
+                    tbxDescription.Text = card.ObjReference.DescriptionLieu;
                     cbxType.SelectedIndex = 1;
                     break;
                 //Lieu
                 case 3:
                     tbxTitre.Text = card.ObjReference.NomReference;
-                    tbxAuteur.Text=card.ObjReference.Auteur;
-                    tbxDescription.Text = card.ObjReference.Description;
+                    tbxAuteur.Text = card.ObjReference.Auteur;
+                    tbxDescription.Text = card.ObjReference.DescriptionLieu;
                     cbxType.SelectedIndex = 2;
                     break;
             }
         }
 
+        public void SelectionCard()
+        {
+            foreach (var uneCard in _cardsReferences)
+            {
+               uneCard.BackColor = Color.White;
+               uneCard.ForeColor = Color.Black;
+            }
+        }
+
         private void btnModifier_Click(object sender, EventArgs e)
         {
-            if (new ReferenceMusique(0, "à ajouter", tbxTitre.Text, tbxAuteur.Text, ObjLivre.IdLivre).PutReference(_utilisateur, new ReferenceMusique(_cardSelectionne.ObjReference.IdReference,  "A Ajouter", tbxTitre.Text, tbxAuteur.Text,  _livre.IdLivre)))
+            //new ReferenceMusique(0, "à ajouter", tbxTitre.Text, tbxAuteur.Text, ObjLivre.IdLivre).PutReference(_utilisateur, new ReferenceMusique(_cardSelectionne.ObjReference.IdReference,  "A Ajouter", tbxTitre.Text, tbxAuteur.Text,  _livre.IdLivre))
+            switch (_cardSelectionne.ObjReference.IdType)
             {
-                MessageBox.Show("La référence à été modifiée", "Référence modifiée", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                UpdateFormView();
+                case 1:
+
+                    break;
+                //Musique
+                case 2:
+                    if (_cardSelectionne.ObjReference.PutReference(_utilisateur, new ReferenceMusique(0, "à ajouter", tbxTitre.Text, tbxAuteur.Text, ObjLivre.IdLivre)))
+                    {
+                        MessageBox.Show("La référence à été modifiée", "Référence modifiée", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        UpdateFormView();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Un problème s'est produit lors de l'envoie de la donnée", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    break;
+                //Lieu
+                case 3:
+                    if (_cardSelectionne.ObjReference.PutReference(_utilisateur, new ReferenceLieu(0,  tbxTitre.Text, tbxDescription.Text, ObjLivre.IdLivre)))
+                    {
+                        MessageBox.Show("La référence à été modifiée", "Référence modifiée", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        UpdateFormView();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Un problème s'est produit lors de l'envoie de la donnée", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    break;
+            }
+            
+            
+        }
+
+        private void flpReferences_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void flpReferences_Click(object sender, EventArgs e)
+        {
+            InputParDefault();
+        }
+
+        private void InputParDefault()
+        {
+            cbxType.Enabled = true;
+            cbxType.SelectedIndex = 0;
+            _cardSelectionne = null;
+            SelectionCard();
+            btnModifier.Enabled = false;
+            btnSupprimer.Enabled = false;
+            btnAjouter.Enabled = true;
+            tbxAuteur.Text = "";
+            tbxTitre.Text = "";
+            tbxDescription.Text = "";
+        }
+
+        private void frmCollectionReferences_Click(object sender, EventArgs e)
+        {
+            InputParDefault();
+        }
+
+        private void cbxLivre_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbxLivre.SelectedIndex != 0)
+            {
+                EtatTousElements(false);
+                cbxLivre.Enabled = true;
             }
             else
             {
-                MessageBox.Show("Un problème s'est produit lors de l'envoie de la donnée", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                InputParDefault();
+                tbxAuteur.Enabled = true;
+                tbxTitre.Enabled = true;
+                btnImporterImage.Enabled = true;
             }
         }
     }

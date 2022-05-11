@@ -66,7 +66,7 @@
             // btnAjouter
             // 
             this.btnAjouter.Enabled = false;
-            this.btnAjouter.Location = new System.Drawing.Point(954, 746);
+            this.btnAjouter.Location = new System.Drawing.Point(841, 746);
             this.btnAjouter.Name = "btnAjouter";
             this.btnAjouter.Size = new System.Drawing.Size(337, 23);
             this.btnAjouter.TabIndex = 5;
@@ -77,7 +77,7 @@
             // btnModifier
             // 
             this.btnModifier.Enabled = false;
-            this.btnModifier.Location = new System.Drawing.Point(954, 775);
+            this.btnModifier.Location = new System.Drawing.Point(841, 775);
             this.btnModifier.Name = "btnModifier";
             this.btnModifier.Size = new System.Drawing.Size(337, 23);
             this.btnModifier.TabIndex = 6;
@@ -88,7 +88,7 @@
             // btnSupprimer
             // 
             this.btnSupprimer.Enabled = false;
-            this.btnSupprimer.Location = new System.Drawing.Point(954, 833);
+            this.btnSupprimer.Location = new System.Drawing.Point(841, 833);
             this.btnSupprimer.Name = "btnSupprimer";
             this.btnSupprimer.Size = new System.Drawing.Size(337, 23);
             this.btnSupprimer.TabIndex = 7;
@@ -100,7 +100,7 @@
             // 
             this.lblAuteur.AutoSize = true;
             this.lblAuteur.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAuteur.Location = new System.Drawing.Point(950, 47);
+            this.lblAuteur.Location = new System.Drawing.Point(837, 47);
             this.lblAuteur.Name = "lblAuteur";
             this.lblAuteur.Size = new System.Drawing.Size(65, 20);
             this.lblAuteur.TabIndex = 8;
@@ -110,7 +110,7 @@
             // 
             this.lblTitre.AutoSize = true;
             this.lblTitre.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitre.Location = new System.Drawing.Point(950, 109);
+            this.lblTitre.Location = new System.Drawing.Point(837, 109);
             this.lblTitre.Name = "lblTitre";
             this.lblTitre.Size = new System.Drawing.Size(48, 20);
             this.lblTitre.TabIndex = 9;
@@ -121,7 +121,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(950, 173);
+            this.label2.Location = new System.Drawing.Point(837, 173);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(62, 20);
             this.label2.TabIndex = 10;
@@ -129,7 +129,7 @@
             // 
             // tbxAuteur
             // 
-            this.tbxAuteur.Location = new System.Drawing.Point(954, 70);
+            this.tbxAuteur.Location = new System.Drawing.Point(841, 70);
             this.tbxAuteur.Name = "tbxAuteur";
             this.tbxAuteur.Size = new System.Drawing.Size(337, 20);
             this.tbxAuteur.TabIndex = 11;
@@ -137,7 +137,7 @@
             // 
             // tbxTitre
             // 
-            this.tbxTitre.Location = new System.Drawing.Point(954, 132);
+            this.tbxTitre.Location = new System.Drawing.Point(841, 132);
             this.tbxTitre.Name = "tbxTitre";
             this.tbxTitre.Size = new System.Drawing.Size(337, 20);
             this.tbxTitre.TabIndex = 12;
@@ -145,7 +145,7 @@
             // 
             // btnImporterImage
             // 
-            this.btnImporterImage.Location = new System.Drawing.Point(954, 622);
+            this.btnImporterImage.Location = new System.Drawing.Point(841, 622);
             this.btnImporterImage.Name = "btnImporterImage";
             this.btnImporterImage.Size = new System.Drawing.Size(337, 23);
             this.btnImporterImage.TabIndex = 13;
@@ -158,14 +158,14 @@
             this.flpListCard.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.flpListCard.Location = new System.Drawing.Point(12, 47);
             this.flpListCard.Name = "flpListCard";
-            this.flpListCard.Size = new System.Drawing.Size(936, 809);
+            this.flpListCard.Size = new System.Drawing.Size(783, 809);
             this.flpListCard.TabIndex = 15;
             this.flpListCard.Click += new System.EventHandler(this.flpListCard_Click);
             // 
             // pbxImageAjouter
             // 
             this.pbxImageAjouter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbxImageAjouter.Location = new System.Drawing.Point(954, 196);
+            this.pbxImageAjouter.Location = new System.Drawing.Point(841, 196);
             this.pbxImageAjouter.Name = "pbxImageAjouter";
             this.pbxImageAjouter.Size = new System.Drawing.Size(337, 420);
             this.pbxImageAjouter.TabIndex = 17;
@@ -176,7 +176,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(1070, 9);
+            this.label1.Location = new System.Drawing.Point(957, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(102, 20);
             this.label1.TabIndex = 18;
@@ -186,7 +186,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1299, 878);
+            this.ClientSize = new System.Drawing.Size(1201, 878);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pbxImageAjouter);
             this.Controls.Add(this.flpListCard);

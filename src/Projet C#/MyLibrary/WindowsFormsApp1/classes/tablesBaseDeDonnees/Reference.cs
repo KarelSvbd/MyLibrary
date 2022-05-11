@@ -4,7 +4,7 @@
     {
         #region Variables d'instances
         private int _idReference, _idType, _livreReference, _idLivre;
-        private string _nomReference, _nomImage, _auteur, _description;
+        private string _nomReference, _nomImage, _auteur, _descriptionLieu;
         #endregion
 
         #region Propriétés
@@ -49,10 +49,10 @@
             get { return _idLivre; }
             set { _idLivre = value; }
         }
-        public string Description
+        public string DescriptionLieu
         {
-            get { return _description; }
-            set { _description = value; }
+            get { return _descriptionLieu; }
+            set { _descriptionLieu = value; }
         }
 
         
@@ -60,7 +60,7 @@
         #endregion
 
         #region Constructeurs
-        public Reference(int idReference, string nomReference, string nomImage, string auteur, int idType, int livreReference, int idLivre, string description)
+        public Reference(int idReference, string nomReference, string nomImage, string auteur, int idType, int livreReference, int idLivre, string descriptionLieu)
         {
             _idReference = idReference;
             _nomReference = nomReference;
@@ -69,7 +69,7 @@
             _idType = idType;
             _livreReference = livreReference;
             _idLivre = idLivre;
-            _description = description;
+            _descriptionLieu = descriptionLieu;
         }
 
         public virtual bool PostReference(Utilisateur utilisateur)

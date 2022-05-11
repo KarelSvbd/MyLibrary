@@ -19,7 +19,7 @@ namespace MyLibrary
 
         public override bool PutReference(Utilisateur utilisateur, Reference reference)
         {
-            return ClientRest.Instance.AppelSimple("?table=references&idReference="+reference.IdReference.ToString()+"&email=" + utilisateur.Email + "&password=" + utilisateur.Password + "&nomReference=" + NomReference + "&auteur=" + Auteur + "&nomImage=" + NomImage + "&idLivre=" + IdLivre + "&idType=" + IdType + "", "PUT");
+            return ClientRest.Instance.AppelSimple("?table=references&idReference="+ IdReference.ToString() +"&email=" + utilisateur.Email + "&password=" + utilisateur.Password + "&nomReference=" + reference.NomReference + "&auteur=" + reference.Auteur + "&nomImage=" + reference.NomImage + "&idLivre=" + reference.IdLivre + "&idType=" + reference.IdType + "", "PUT");
         }
     }
 }

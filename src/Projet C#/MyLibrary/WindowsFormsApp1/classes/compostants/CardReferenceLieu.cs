@@ -23,11 +23,11 @@ namespace MyLibrary
             lblTitre.Location = new Point(Location.X + 2, Location.Y + 35);
 
             Label lblTxtDescription = new Label();
-            lblTxtDescription.Text = "Titre : ";
+            lblTxtDescription.Text = "Description : ";
             lblTxtDescription.Location = new Point(190, 5);
             lblTxtDescription.Location = new Point(Location.X + 2, Location.Y + 80);
             Label lblDescription = new Label();
-            lblDescription.Text = ObjReference.Description;
+            lblDescription.Text = ObjReference.DescriptionLieu;
             lblDescription.Location = new Point(Location.X + 2, Location.Y + 95);
             lblDescription.Size = new Size(Size.Width - 2, Size.Height - 80);
             

@@ -8,7 +8,7 @@
     class Reference
     {
         //Variables d'instances
-        private $_idReference, $_nomReference, $_nomImage, $_auteur, $_idType, $_livreReference, $_idLivre, $_description;
+        private $_idReference, $_nomReference, $_nomImage, $_auteur, $_idType, $_livreReference, $_idLivre, $_descriptionLieu;
 
         //Propriétés
         public function getIdReference(){
@@ -46,10 +46,10 @@
             $this->_idType = $idType;
         }
 
-        public function getLivresReference(){
+        public function getLivreReference(){
             return $this->_livreReference;
         }
-        public function setLivresReference($LivreReference){
+        public function setLivreReference($LivreReference){
             $this->_livreReference = $LivreReference;
         }
 
@@ -60,11 +60,11 @@
             $this->_idLivre = $idLivre;
         }
 
-        public function getDescription(){
-            return $this->_description;
+        public function getDescriptionLieu(){
+            return $this->_descriptionLieu;
         }
-        public function setDescription($description){
-           $this->_description =  $description;
+        public function setDescriptionLieu($descriptionLieu){
+           $this->_descriptionLieu =  $descriptionLieu;
         }
 
         //Constructeur
@@ -79,7 +79,7 @@
          *  @param integer int(11) $livreReference
          *  @param integer int(11) $idUtilisateur
          */
-        function __construct($idReference, $nomReference, $nomImage, $auteur, $idType, $livreReference, $idLivre, $description)
+        function __construct($idReference, $nomReference, $nomImage, $auteur, $idType, $livreReference, $idLivre, $descriptionLieu)
         {
             $this->_idReference = $idReference;
             $this->_nomReference = $nomReference;
@@ -88,7 +88,7 @@
             $this->_idType = $idType;
             $this->_livreReference = $livreReference;
             $this->_idLivre = $idLivre;
-            $this->_description = $description;
+            $this->_descriptionLieu = $descriptionLieu;
         }
 
         //Fonctions
@@ -97,7 +97,8 @@
          * 
          * @return array array formé pour JSON
          */
-        public function returnArrayForJSON(){
+        public function returnArrayForJSON() : array
+        {
             return array(
                 "idReference" => $this->_idReference,
                 "nomReference" => $this->_nomReference,
@@ -106,7 +107,7 @@
                 "idType" => $this->_idType,
                 "livreReference" => $this->_livreReference,
                 "idLivre" => $this->_idLivre,
-                "description" => $this->_description
+                "descriptionLieu" => $this->_descriptionLieu
             );
         }
     }

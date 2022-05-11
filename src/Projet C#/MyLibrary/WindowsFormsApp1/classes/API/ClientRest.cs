@@ -167,13 +167,13 @@ namespace MyLibrary.classes
                         referencesParLivre.Add(new ReferenceMusique(Convert.ToInt32(element["idReference"]), Convert.ToString(element["nomImage"]), Convert.ToString(element["nomReference"]), Convert.ToString(element["auteur"]), Convert.ToInt32(element["idLivre"])));
                         break;
                     case 3:
-                        if(element["description"] == null)
+                        if(element["descriptionLieu"] == null)
                         {
                             referencesParLivre.Add(new ReferenceLieu(Convert.ToInt32(element["idReference"]), Convert.ToString(element["nomReference"]), Convert.ToInt32(element["idLivre"])));
                         }
                         else
                         {
-                            referencesParLivre.Add(new ReferenceLieu(Convert.ToInt32(element["idReference"]), Convert.ToString(element["nomReference"]), Convert.ToString(element["description"]), Convert.ToInt32(element["idLivre"])));
+                            referencesParLivre.Add(new ReferenceLieu(Convert.ToInt32(element["idReference"]), Convert.ToString(element["nomReference"]), Convert.ToString(element["descriptionLieu"]), Convert.ToInt32(element["idLivre"])));
                         }
                         
                         break;
