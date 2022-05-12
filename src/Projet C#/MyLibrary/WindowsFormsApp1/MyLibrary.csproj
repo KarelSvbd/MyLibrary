@@ -68,6 +68,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="classes\API\ClientRest.cs" />
+    <Compile Include="classes\compostants\ImageInFile.cs" />
     <Compile Include="classes\references\ReferenceLieu.cs" />
     <Compile Include="classes\references\ReferenceLivre.cs" />
     <Compile Include="classes\tablesBaseDeDonnees\Livre.cs" />

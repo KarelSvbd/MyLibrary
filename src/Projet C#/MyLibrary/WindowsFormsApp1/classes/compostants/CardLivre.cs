@@ -22,11 +22,11 @@ namespace MyLibrary
             set { _livre = value; }
         }
 
-        public CardLivre() : this(new Livre(0, "Notre Dame de paris", "Victor Hugo", "frmConnexion.png", 0), "C:/Users/karel.svbd/Desktop/Pour TPI/src/Projet C#/MyLibrary/WindowsFormsApp1/ressources/images/", null)
+        public CardLivre() : this(new Livre(0, "Notre Dame de paris", "Victor Hugo", "frmConnexion.png", 0),  null)
         {
 
         } 
-        public CardLivre(Livre livre, string imageLocation, frmCollectionLivres lvres) : base()
+        public CardLivre(Livre livre, frmCollectionLivres lvres) : base()
         {
             _livre = livre;
             _lvres = lvres;
@@ -34,7 +34,15 @@ namespace MyLibrary
             _image = new PictureBox();
             _image.Size = new Size(150, 70);
             _image.BackColor = Color.LightBlue;
-            //_image.Image = Image.FromFile(imageLocation + livre.NomImage);
+            try
+            {
+                _image.Image = Image.FromFile(livre.NomImage);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            
             _image.SizeMode = PictureBoxSizeMode.StretchImage;
 
             Label lbltxtAuteur = new Label();
@@ -57,6 +65,11 @@ namespace MyLibrary
             btnReference.Location = new Point(Location.X + 35, Location.Y + 160);
             btnReference.Width = 80;
             Click += ClickCard;
+            lbltxtAuteur.Click += ClickCard;
+            lblAuteur.Click += ClickCard;
+            lbltxtTitre.Click += ClickCard;
+            lblTitre.Click += ClickCard;
+            _image.Click += ClickCard;
             btnReference.Click += ClickReference;
 
 

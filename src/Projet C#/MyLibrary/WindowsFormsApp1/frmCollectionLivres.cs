@@ -12,6 +12,8 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Windows.Forms;
 using MyLibrary.classes;
 using WindowsFormsApp1;
@@ -54,9 +56,12 @@ namespace MyLibrary
             //https://www.codeproject.com/Questions/546631/howplustoplussavepluspictureboxplusimageplusinplus
             try
             {
+                ImageInFile imageEnregistrer = new ImageInFile((Bitmap)pbxImageAjouter.Image);
+                //
                 //Ajout du livre
-                if(new Livre(0, tbxTitre.Text, tbxAuteur.Text, "lien Image", 0).PostLivre(_utilisateur))
+                if (new Livre(0, tbxTitre.Text, tbxAuteur.Text, imageEnregistrer.Nom+imageEnregistrer.Extension, 0).PostLivre(_utilisateur))
                 {
+                    imageEnregistrer.SaveBmp();
                     MessageBox.Show("La donnée a été ajoutée", "Livre ajouté", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     RefreshView();
                 }
@@ -85,27 +90,14 @@ namespace MyLibrary
             }
         }
 
-        private void VerifBtnAjouter()
-        {
-            if (tbxAuteur.Text != "" && tbxTitre.Text != "" && pbxImageAjouter.Image != null)
-            {
-                btnAjouter.Enabled = true;
-            }
-            else
-            {
-                // <!> Changer plus tard
-                btnAjouter.Enabled = true;
-            }
-        }
-
         private void tbxAuteur_TextChanged(object sender, EventArgs e)
         {
-            VerifBtnAjouter();
+
         }
 
         private void tbxTitre_TextChanged(object sender, EventArgs e)
         {
-            VerifBtnAjouter();
+
         }
 
         private void card1_Paint_1(object sender, PaintEventArgs e)
@@ -127,7 +119,7 @@ namespace MyLibrary
 
             foreach (Livre livresPourCard in _listLivresUtilisateur)
             {
-                Card nouvelleCard = new CardLivre(livresPourCard, "pas encore implémenté", this);
+                Card nouvelleCard = new CardLivre(livresPourCard, this);
                 _listCard.Add(nouvelleCard);
                 flpListCard.Controls.Add(nouvelleCard);
             }
@@ -142,7 +134,7 @@ namespace MyLibrary
 
             foreach (Livre livresPourCard in _listLivresUtilisateur)
             {
-                CardLivre nouvelleCard = new CardLivre(livresPourCard, "pas encore implémenté", this);
+                CardLivre nouvelleCard = new CardLivre(livresPourCard, this);
                 _listCard.Add(nouvelleCard);
                 flpListCard.Controls.Add(nouvelleCard);
             }
@@ -151,7 +143,24 @@ namespace MyLibrary
 
         private void flpListCard_Click(object sender, EventArgs e)
         {
+            VueParDefault();
+        }
 
+        private void VueParDefault()
+        {
+            foreach (CardLivre uneCard in _listCard)
+            {
+                uneCard.BackColor = Color.White;
+                uneCard.ForeColor = Color.Black;
+            }
+            _cardSelectionne = null;
+            
+            btnAjouter.Enabled = true;
+            btnModifier.Enabled = false;
+            btnSupprimer.Enabled = false;
+            tbxAuteur.Text = null;
+            tbxTitre.Text = null;
+            pbxImageAjouter.Image = null;
         }
 
         public void SelectionnerCard(CardLivre card)
@@ -159,6 +168,7 @@ namespace MyLibrary
             _cardSelectionne = card;
             btnModifier.Enabled = true;
             btnSupprimer.Enabled = true;
+            btnAjouter.Enabled = false;
             foreach(CardLivre uneCard in _listCard)
             {
                 uneCard.BackColor = Color.White;
@@ -168,12 +178,17 @@ namespace MyLibrary
             card.ForeColor = Color.White;
             tbxAuteur.Text = card.ObjLivre.Auteur;
             tbxTitre.Text = card.ObjLivre.Titre;
+            pbxImageAjouter.Image = Image.FromFile(card.ObjLivre.NomImage);
+
         }
 
         private void btnModifier_Click(object sender, EventArgs e)
         {
-            if(_cardSelectionne.ObjLivre.PutLivre(_utilisateur, new Livre(0, tbxTitre.Text, tbxAuteur.Text, "A AJOUTER", 0)))
+            ImageInFile imageEnregistrer = new ImageInFile((Bitmap)pbxImageAjouter.Image);
+            if (_cardSelectionne.ObjLivre.PutLivre(_utilisateur, new Livre(0, tbxTitre.Text, tbxAuteur.Text, imageEnregistrer.Nom + imageEnregistrer.Extension, 0)))
             {
+                File.Delete(_cardSelectionne.ObjLivre.NomImage);
+                imageEnregistrer.SaveBmp();
                 MessageBox.Show("Le livre a été modifié", "Livre modifié", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 RefreshView();
             }
@@ -189,8 +204,9 @@ namespace MyLibrary
             {
                 if (_cardSelectionne.ObjLivre.DeleteLivre(_utilisateur))
                 {
-                    MessageBox.Show("Le livre a été supprimé", "Livre supprimé", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     RefreshView();
+                    VueParDefault();
+                    MessageBox.Show("Le livre a été supprimé", "Livre supprimé", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             
@@ -222,6 +238,11 @@ namespace MyLibrary
         private void lblTitre_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void frmCollectionLivres_Click(object sender, EventArgs e)
+        {
+            VueParDefault();
         }
     }
 }

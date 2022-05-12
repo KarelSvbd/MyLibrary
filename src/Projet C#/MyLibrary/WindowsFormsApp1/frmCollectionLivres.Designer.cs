@@ -155,7 +155,9 @@
             // 
             // flpListCard
             // 
+            this.flpListCard.AutoScroll = true;
             this.flpListCard.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.flpListCard.Cursor = System.Windows.Forms.Cursors.Default;
             this.flpListCard.Location = new System.Drawing.Point(12, 47);
             this.flpListCard.Name = "flpListCard";
             this.flpListCard.Size = new System.Drawing.Size(783, 809);
@@ -168,6 +170,7 @@
             this.pbxImageAjouter.Location = new System.Drawing.Point(841, 196);
             this.pbxImageAjouter.Name = "pbxImageAjouter";
             this.pbxImageAjouter.Size = new System.Drawing.Size(337, 420);
+            this.pbxImageAjouter.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbxImageAjouter.TabIndex = 17;
             this.pbxImageAjouter.TabStop = false;
             this.pbxImageAjouter.Click += new System.EventHandler(this.pbxImageAjouter_Click);
@@ -201,10 +204,12 @@
             this.Controls.Add(this.btnAjouter);
             this.Controls.Add(this.tbxRecherche);
             this.Controls.Add(this.lblRecherche);
+            this.MaximizeBox = false;
             this.Name = "frmCollectionLivres";
             this.Text = "Collection de livres";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmCollectionLivres_FormClosed);
             this.Load += new System.EventHandler(this.frmCollectionLivres_Load);
+            this.Click += new System.EventHandler(this.frmCollectionLivres_Click);
             ((System.ComponentModel.ISupportInitialize)(this.pbxImageAjouter)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

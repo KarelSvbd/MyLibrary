@@ -52,7 +52,7 @@
 
         public bool PostLivre(Utilisateur utilisateur)
         {
-            return _clientRest.AppelSimple("?email="+utilisateur.Email+"&password="+utilisateur.Password+"&titre="+_titre+"&auteur="+_auteur+"&nomImage="+_nomImage+"", "POST");
+            return _clientRest.AppelSimple("?table=livres&email="+utilisateur.Email+"&password="+utilisateur.Password+"&titre="+_titre+"&auteur="+_auteur+"&nomImage="+_nomImage+"", "POST");
             
             //Messagebox _clientRest.ApiRequest("", "POST");
         }
@@ -68,7 +68,7 @@
 
         public bool DeleteLivre(Utilisateur utilisateur)
         {
-            return _clientRest.AppelSimple("?email="+utilisateur.Email+"&password="+utilisateur.Email+"&table=livres&idLivre="+_idLivre+"", "DELETE");
+            return _clientRest.AppelSimple("?email="+utilisateur.Email+"&password="+utilisateur.Password+"&table=livres&idLivre="+_idLivre+"", "DELETE");
         }
     }
 }

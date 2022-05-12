@@ -58,7 +58,13 @@ namespace WindowsFormsApp1
             _types = _clientRest.TousTypes(_utilisateur);
             _livres = _clientRest.LivresParUtilisateur(_utilisateur);
             majCbxTypes(_types);
-            
+
+            cbxFiltreType.Items.Add("Tous");
+            cbxFiltreType.Items.Add("Livres");
+            cbxFiltreType.Items.Add("Musiques");
+            cbxFiltreType.Items.Add("Lieux");
+            cbxFiltreType.SelectedIndex = 0;
+
             UpdateFormView();
             btnAjouter.Enabled = true;
             btnModifier.Enabled = true;
@@ -70,14 +76,19 @@ namespace WindowsFormsApp1
 
         private void btnAjouter_Click(object sender, EventArgs e)
         {
+            ImageInFile imageEnregistrer = null;
             //Ajout test de la combobox
             switch (cbxType.SelectedIndex)
             {
                 case 0:
-                    if(cbxLivre.SelectedIndex == 0)
+                    imageEnregistrer = new ImageInFile((Bitmap)pbxImage.Image);
+                    if (cbxLivre.SelectedIndex == 0)
                     {
                         //new ReferenceLivre(0)
-                        
+                        if (new Livre(0, tbxTitre.Text, tbxAuteur.Text, imageEnregistrer.Nom + imageEnregistrer.Extension, _utilisateur.IdUtilisateur).PostLivre(_utilisateur))
+                        {
+                            imageEnregistrer.SaveBmp();
+                        }
                     }
                     else
                     {
@@ -94,8 +105,10 @@ namespace WindowsFormsApp1
                     }
                     break;
                 case 1:
-                    if (new ReferenceMusique(0, "à ajouter", tbxTitre.Text, tbxAuteur.Text, ObjLivre.IdLivre).PostReference(_utilisateur))
+                    imageEnregistrer = new ImageInFile((Bitmap)pbxImage.Image);
+                    if (new ReferenceMusique(0, imageEnregistrer.Nom + imageEnregistrer.Extension, tbxTitre.Text, tbxAuteur.Text, ObjLivre.IdLivre).PostReference(_utilisateur))
                     {
+                        imageEnregistrer.SaveBmp();
                         MessageBox.Show("La référence à été ajoutée", "Référence Ajoutée", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         UpdateFormView();
                     } else{
@@ -141,6 +154,7 @@ namespace WindowsFormsApp1
             _references.Clear();
             _cardsReferences.Clear();
             flpReferences.Controls.Clear();
+            //cbxFiltreType.SelectedIndex = 0;
 
             //récupération des éléments
             _references = _clientRest.ReferencesParLivre(_utilisateur, _livre);
@@ -153,33 +167,60 @@ namespace WindowsFormsApp1
             cbxLivre.SelectedIndex = 0;
 
             
-
-            foreach (Reference reference in _references)
+            if(cbxFiltreType.SelectedIndex == 0 && tbxRecherche.Text == "")
             {
-                Card nouvelleCard;
-                switch (reference.IdType)
+                foreach (Reference reference in _references)
                 {
-                    //Livre
-                    case 1:
-                        nouvelleCard = new CardReferenceLivre(_utilisateur, reference, this);
-                        flpReferences.Controls.Add(nouvelleCard);
-                        _cardsReferences.Add(nouvelleCard);
-                        break;
-                    //Musique
-                    case 2:
-                        nouvelleCard = new CardReferenceMusique(reference, this);
-                        flpReferences.Controls.Add(nouvelleCard);
-                        _cardsReferences.Add(nouvelleCard);
-                        break;
-                    //Lieu
-                    case 3:
-                        nouvelleCard = new CardReferenceLieu(reference, this);
-                        flpReferences.Controls.Add(nouvelleCard);
-                        _cardsReferences.Add(nouvelleCard);
-                        break;
+                    Card nouvelleCard;
+                    switch (reference.IdType)
+                    {
+                        //Livre
+                        case 1:
+                            nouvelleCard = new CardReferenceLivre(_utilisateur, reference, this);
+                            flpReferences.Controls.Add(nouvelleCard);
+                            _cardsReferences.Add(nouvelleCard);
+                            break;
+                        //Musique
+                        case 2:
+                            nouvelleCard = new CardReferenceMusique(reference, this);
+                            flpReferences.Controls.Add(nouvelleCard);
+                            _cardsReferences.Add(nouvelleCard);
+                            break;
+                        //Lieu
+                        case 3:
+                            nouvelleCard = new CardReferenceLieu(reference, this);
+                            flpReferences.Controls.Add(nouvelleCard);
+                            _cardsReferences.Add(nouvelleCard);
+                            break;
+                    }
+
+                }
+            }
+            else
+            {
+                List<CardReference> cards = new List<CardReference>();
+                if(cbxFiltreType.SelectedIndex != 0 && tbxRecherche.Text == "")
+                {
+                    cards.AddRange(RechercheReferenceParFiltre(cbxFiltreType.SelectedIndex));
+                }
+                else if(cbxFiltreType.SelectedIndex == 0 && tbxRecherche.Text != "")
+                {
+                    cards.AddRange(RechercheReferenceParFiltre(tbxRecherche.Text));
+                }
+                else
+                {
+                    cards.AddRange(RechercheReferenceParFiltre(tbxRecherche.Text, cbxFiltreType.SelectedIndex));
+                }
+
+
+                foreach(CardReference card in cards)
+                {
+                    flpReferences.Controls.Add(card);
+                    _cardsReferences.Add(card);
                 }
                 
             }
+            
             //ActiverTousElements();
         }
 
@@ -339,8 +380,10 @@ namespace WindowsFormsApp1
                     break;
                 //Musique
                 case 2:
-                    if (_cardSelectionne.ObjReference.PutReference(_utilisateur, new ReferenceMusique(0, "à ajouter", tbxTitre.Text, tbxAuteur.Text, ObjLivre.IdLivre)))
+                    ImageInFile imageEnregistrer = new ImageInFile((Bitmap)pbxImage.Image);
+                    if (_cardSelectionne.ObjReference.PutReference(_utilisateur, new ReferenceMusique(0, imageEnregistrer.Nom + imageEnregistrer.Extension, tbxTitre.Text, tbxAuteur.Text, ObjLivre.IdLivre)))
                     {
+                        imageEnregistrer.SaveBmp();
                         MessageBox.Show("La référence à été modifiée", "Référence modifiée", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         UpdateFormView();
                     }
@@ -388,6 +431,7 @@ namespace WindowsFormsApp1
             tbxAuteur.Text = "";
             tbxTitre.Text = "";
             tbxDescription.Text = "";
+            pbxImage.Image = null;
         }
 
         private void frmCollectionReferences_Click(object sender, EventArgs e)
@@ -409,6 +453,151 @@ namespace WindowsFormsApp1
                 tbxTitre.Enabled = true;
                 btnImporterImage.Enabled = true;
             }
+        }
+
+        private void btnImporterImage_Click(object sender, EventArgs e)
+        {
+            //https://stackoverflow.com/questions/6122984/load-a-bitmap-image-into-windows-forms-using-open-file-dialog
+            using (OpenFileDialog dlg = new OpenFileDialog())
+            {
+                dlg.Title = "Open Image";
+                dlg.Filter = "Image Files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG";
+
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    // Create a new Bitmap object from the picture file on disk,
+                    // and assign that to the PictureBox.Image property
+                    pbxImage.Image = new Bitmap(dlg.FileName);
+                }
+            }
+        }
+
+        private void cbxFiltreType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateFormView();
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tbxRecherche_TextChanged(object sender, EventArgs e)
+        {
+            UpdateFormView();
+        }
+
+        private List<CardReference> RechercheReferenceParFiltre(string recherche)
+        {
+            List<CardReference> listCard = new List<CardReference>();
+            CardReference nouvelleCard;
+            foreach (Reference reference in _references)
+            {
+                if(reference.DescriptionLieu.ToLower().Contains(recherche.ToLower()) || reference.Auteur.ToLower().Contains(recherche.ToLower()) || reference.NomReference.ToLower().Contains(recherche.ToLower()))
+                {
+                    switch (reference.IdType)
+                    {
+                        //Livre
+                        case 1:
+                                nouvelleCard = new CardReferenceLivre(_utilisateur, reference, this);
+                                listCard.Add(nouvelleCard);
+                            break;
+                        //Musique
+                        case 2:
+                                nouvelleCard = new CardReferenceMusique(reference, this);
+                                listCard.Add(nouvelleCard);
+
+                            break;
+                        //Lieu
+                        case 3:
+                                nouvelleCard = new CardReferenceLieu(reference, this);
+                                listCard.Add(nouvelleCard);
+                            break;
+                    }
+                }
+            }
+            return listCard;
+        }
+
+        private List<CardReference> RechercheReferenceParFiltre(int idType)
+        {
+            List<CardReference> listCard = new List<CardReference>();
+            foreach (Reference reference in _references)
+            {
+                CardReference nouvelleCard;
+                switch (reference.IdType)
+                {
+                    //Livre
+                    case 1:
+                        if (idType == 1)
+                        {
+                            nouvelleCard = new CardReferenceLivre(_utilisateur, reference, this);
+                            listCard.Add(nouvelleCard);
+                        }
+                        break;
+                    //Musique
+                    case 2:
+                        if (idType == 2)
+                        {
+                            nouvelleCard = new CardReferenceMusique(reference, this);
+                            listCard.Add(nouvelleCard);
+                        }
+
+                        break;
+                    //Lieu
+                    case 3:
+                        if (idType == 3)
+                        {
+                            nouvelleCard = new CardReferenceLieu(reference, this);
+                            listCard.Add(nouvelleCard);
+                        }
+                        break;
+                }
+            }
+            return listCard;
+        }
+
+        private List<CardReference> RechercheReferenceParFiltre(string recherche, int idType)
+        {
+            List<CardReference> listCard = new List<CardReference>();
+            CardReference nouvelleCard;
+            foreach (Reference reference in _references)
+            {
+                if (reference.DescriptionLieu.ToLower().Contains(recherche.ToLower()) || reference.Auteur.ToLower().Contains(recherche.ToLower()) || reference.NomReference.ToLower().Contains(recherche.ToLower()))
+                {
+                    switch (reference.IdType)
+                    {
+                        //Livre
+                        case 1:
+                            if (idType == 1)
+                            {
+                                nouvelleCard = new CardReferenceLivre(_utilisateur, reference, this);
+                                listCard.Add(nouvelleCard);
+                            }
+                            break;
+                           
+                        //Musique
+                        case 2:
+                            if(idType == 2)
+                            {
+                                nouvelleCard = new CardReferenceMusique(reference, this);
+                                listCard.Add(nouvelleCard);
+                            }
+                            
+
+                            break;
+                        //Lieu
+                        case 3:
+                            if(idType == 3)
+                            {
+                                nouvelleCard = new CardReferenceLieu(reference, this);
+                                listCard.Add(nouvelleCard);
+                            }
+                            break;
+                    }
+                }
+            }
+            return listCard;
         }
     }
 }

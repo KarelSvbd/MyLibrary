@@ -47,7 +47,9 @@ namespace MyLibrary
 
         public CardReferenceLivre(Utilisateur utilisateur, Reference referenceLivre, frmCollectionReferences frm) : this(ClientRest.Instance.LivreParIdLivre(utilisateur, referenceLivre.IdLivre)[0], referenceLivre, frm)
         {
-            
+            foreach(var lvr in ClientRest.Instance.LivreParIdLivre(utilisateur, referenceLivre.IdLivre)){
+                Console.WriteLine(lvr.IdLivre + " " + lvr.Auteur + " " + lvr.Titre);
+            }
         }
         protected override void ClickCard(object o, EventArgs e)
         {

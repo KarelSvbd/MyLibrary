@@ -18,7 +18,15 @@ namespace MyLibrary
             _image = new PictureBox();
             _image.Size = new Size(150, 70);
             _image.BackColor = Color.Orange;
-            //_image.Image = Image.FromFile(imageLocation + livre.NomImage);
+            try
+            {
+                _image.Image = Image.FromFile(reference.NomImage);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            
             _image.SizeMode = PictureBoxSizeMode.StretchImage;
 
             Label lbltxtAuteur = new Label();

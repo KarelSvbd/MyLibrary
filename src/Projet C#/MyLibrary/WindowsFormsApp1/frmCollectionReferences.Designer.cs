@@ -47,6 +47,9 @@
             this.cbxLivre = new System.Windows.Forms.ComboBox();
             this.cbxType = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.cbxFiltreType = new System.Windows.Forms.ComboBox();
+            this.tbxRecherche = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbxImage)).BeginInit();
             this.SuspendLayout();
             // 
@@ -55,7 +58,7 @@
             this.lblTitreLivre.AutoSize = true;
             this.lblTitreLivre.Font = new System.Drawing.Font("MV Boli", 18F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitreLivre.ForeColor = System.Drawing.Color.Firebrick;
-            this.lblTitreLivre.Location = new System.Drawing.Point(365, 9);
+            this.lblTitreLivre.Location = new System.Drawing.Point(12, 9);
             this.lblTitreLivre.Name = "lblTitreLivre";
             this.lblTitreLivre.Size = new System.Drawing.Size(128, 31);
             this.lblTitreLivre.TabIndex = 0;
@@ -65,7 +68,7 @@
             // 
             this.flpReferences.AutoScroll = true;
             this.flpReferences.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.flpReferences.Location = new System.Drawing.Point(12, 60);
+            this.flpReferences.Location = new System.Drawing.Point(18, 86);
             this.flpReferences.Name = "flpReferences";
             this.flpReferences.Size = new System.Drawing.Size(789, 645);
             this.flpReferences.TabIndex = 1;
@@ -108,7 +111,7 @@
             // btnSupprimer
             // 
             this.btnSupprimer.Enabled = false;
-            this.btnSupprimer.Location = new System.Drawing.Point(820, 682);
+            this.btnSupprimer.Location = new System.Drawing.Point(820, 708);
             this.btnSupprimer.Name = "btnSupprimer";
             this.btnSupprimer.Size = new System.Drawing.Size(255, 23);
             this.btnSupprimer.TabIndex = 7;
@@ -134,6 +137,7 @@
             this.btnImporterImage.TabIndex = 23;
             this.btnImporterImage.Text = "Importer";
             this.btnImporterImage.UseVisualStyleBackColor = true;
+            this.btnImporterImage.Click += new System.EventHandler(this.btnImporterImage_Click);
             // 
             // tbxTitre
             // 
@@ -241,11 +245,41 @@
             this.label4.TabIndex = 29;
             this.label4.Text = "Type :";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(14, 53);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(70, 20);
+            this.label5.TabIndex = 31;
+            this.label5.Text = "Filtrage :";
+            // 
+            // cbxFiltreType
+            // 
+            this.cbxFiltreType.FormattingEnabled = true;
+            this.cbxFiltreType.Location = new System.Drawing.Point(90, 55);
+            this.cbxFiltreType.Name = "cbxFiltreType";
+            this.cbxFiltreType.Size = new System.Drawing.Size(133, 21);
+            this.cbxFiltreType.TabIndex = 32;
+            this.cbxFiltreType.SelectedIndexChanged += new System.EventHandler(this.cbxFiltreType_SelectedIndexChanged);
+            // 
+            // tbxRecherche
+            // 
+            this.tbxRecherche.Location = new System.Drawing.Point(229, 55);
+            this.tbxRecherche.Name = "tbxRecherche";
+            this.tbxRecherche.Size = new System.Drawing.Size(158, 20);
+            this.tbxRecherche.TabIndex = 33;
+            this.tbxRecherche.TextChanged += new System.EventHandler(this.tbxRecherche_TextChanged);
+            // 
             // frmCollectionReferences
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1102, 717);
+            this.ClientSize = new System.Drawing.Size(1102, 744);
+            this.Controls.Add(this.tbxRecherche);
+            this.Controls.Add(this.cbxFiltreType);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.cbxType);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.cbxLivre);
@@ -295,5 +329,8 @@
         private System.Windows.Forms.ComboBox cbxLivre;
         private System.Windows.Forms.ComboBox cbxType;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox cbxFiltreType;
+        private System.Windows.Forms.TextBox tbxRecherche;
     }
 }
