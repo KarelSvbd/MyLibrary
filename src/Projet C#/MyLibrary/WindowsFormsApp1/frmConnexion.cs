@@ -1,6 +1,6 @@
 ﻿/* Projet   : MyLibrary - TPI 2022
- * Version  : 0.6
- * Date     : 10.05.2022
+ * Version  : 0.8.1
+ * Date     : 16.05.2022
  * 
  * Auteur   : Karel V. Svoboda
  * Classe   : I.DA-P4A
@@ -21,6 +21,7 @@ namespace MyLibrary
     {
         public frmConnexion()
         {
+            //initialisation des composants
             InitializeComponent();
         }
 
@@ -29,22 +30,31 @@ namespace MyLibrary
             //Vérification si les champs sont remplis
             if(tbxEmail.Text != "" && tbxPassword.Text != "")
             {
-                //Création d'un nouvel utilisateur avec les données des champs
-                var user = new Utilisateur(tbxEmail.Text, GenererSha1(tbxPassword.Text).ToLower());
-                //Tentative de connexion à l'API
-                if (user.TestConnexion())
+                try
                 {
-                    user.RecuperationInfoUtiisateur();
-                    //Affichage de la nouvelle form
-                    frmCollectionLivres collectionLivres = new frmCollectionLivres(user, this);
-                    collectionLivres.Show();
+                    //Création d'un nouvel utilisateur avec les données des champs
+                    var user = new Utilisateur(tbxEmail.Text, GenererSha1(tbxPassword.Text).ToLower());
+                    //Tentative de connexion à l'API
+                    if (user.TestConnexion())
+                    {
+                        user.RecuperationInfoUtiisateur();
+                        //Affichage de la nouvelle form
+                        frmCollectionLivres collectionLivres = new frmCollectionLivres(user, this);
+                        collectionLivres.Show();
+                    }
+                    //Si les données de connexion ne correspondent pas
+                    else
+                    {
+                        //Message d'erreur
+                        MessageBox.Show("Erreur lors de la connexion", "Attention Requise", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-                //Si les données de connexion ne correspondent pas
-                else
+                catch(Exception ex)
                 {
                     //Message d'erreur
-                    MessageBox.Show("Email ou Mot de passe erroné", "Attention Requise", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Problème interne lors de la connexion : " + Environment.NewLine + ex, "Erreur interne", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                
             }
             else
             {
@@ -71,23 +81,18 @@ namespace MyLibrary
             }
         }
 
+        //Afficahge au clair du mot de passe lors du maintien du bouton d'affichage
         private void btnAfficherMdp_MouseDown(object sender, MouseEventArgs e)
         {
             //Affichage du mot de passe en clair
             tbxPassword.PasswordChar = '\0';
         }
 
+        //Changement de la vue des données afin de masquer le mot de passe
         private void btnAfficherMdp_MouseUp(object sender, MouseEventArgs e)
         {
             //Cache le mot de passe
             tbxPassword.PasswordChar = '*';
         }
-
-        private void tbxEmail_TextChanged(object sender, EventArgs e)
-        {
-            
-        }
-
-        
     }
 }

@@ -84,7 +84,6 @@
             this.tbxEmail.Name = "tbxEmail";
             this.tbxEmail.Size = new System.Drawing.Size(178, 20);
             this.tbxEmail.TabIndex = 5;
-            this.tbxEmail.TextChanged += new System.EventHandler(this.tbxEmail_TextChanged);
             // 
             // tbxPassword
             // 

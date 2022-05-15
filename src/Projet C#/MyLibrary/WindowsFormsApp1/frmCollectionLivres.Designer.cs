@@ -115,7 +115,6 @@
             this.lblTitre.Size = new System.Drawing.Size(48, 20);
             this.lblTitre.TabIndex = 9;
             this.lblTitre.Text = "Titre :";
-            this.lblTitre.Click += new System.EventHandler(this.lblTitre_Click);
             // 
             // label2
             // 
@@ -133,7 +132,6 @@
             this.tbxAuteur.Name = "tbxAuteur";
             this.tbxAuteur.Size = new System.Drawing.Size(337, 20);
             this.tbxAuteur.TabIndex = 11;
-            this.tbxAuteur.TextChanged += new System.EventHandler(this.tbxAuteur_TextChanged);
             // 
             // tbxTitre
             // 
@@ -141,7 +139,6 @@
             this.tbxTitre.Name = "tbxTitre";
             this.tbxTitre.Size = new System.Drawing.Size(337, 20);
             this.tbxTitre.TabIndex = 12;
-            this.tbxTitre.TextChanged += new System.EventHandler(this.tbxTitre_TextChanged);
             // 
             // btnImporterImage
             // 
@@ -173,7 +170,6 @@
             this.pbxImageAjouter.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbxImageAjouter.TabIndex = 17;
             this.pbxImageAjouter.TabStop = false;
-            this.pbxImageAjouter.Click += new System.EventHandler(this.pbxImageAjouter_Click);
             // 
             // label1
             // 
@@ -208,7 +204,6 @@
             this.Name = "frmCollectionLivres";
             this.Text = "Collection de livres";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmCollectionLivres_FormClosed);
-            this.Load += new System.EventHandler(this.frmCollectionLivres_Load);
             this.Click += new System.EventHandler(this.frmCollectionLivres_Click);
             ((System.ComponentModel.ISupportInitialize)(this.pbxImageAjouter)).EndInit();
             this.ResumeLayout(false);

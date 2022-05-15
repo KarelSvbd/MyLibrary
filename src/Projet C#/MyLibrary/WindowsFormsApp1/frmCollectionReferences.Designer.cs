@@ -95,7 +95,6 @@
             this.lblTxtReference.Size = new System.Drawing.Size(267, 31);
             this.lblTxtReference.TabIndex = 5;
             this.lblTxtReference.Text = "Gestion des références";
-            this.lblTxtReference.Click += new System.EventHandler(this.lblTxtReference_Click);
             // 
             // btnModifier
             // 

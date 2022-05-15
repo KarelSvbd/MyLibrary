@@ -1,6 +1,6 @@
 ﻿/* Projet   : MyLibrary - TPI 2022
- * Version  : 0.6
- * Date     : 10.05.2022
+ * Version  : 0.8.1
+ * Date     : 16.05.2022
  * 
  * Auteur   : Karel V. Svoboda
  * Classe   : I.DA-P4A
@@ -52,7 +52,7 @@ namespace WindowsFormsApp1
 
             InitializeComponent();
             //Changement dynamique du nom de la form
-            Text += " " + _livre.Titre;
+            Text += " : " + _livre.Titre.ToLower();
             lblTitreLivre.Text = _livre.Titre;
             _clientRest = ClientRest.Instance;
             _types = _clientRest.TousTypes(_utilisateur);
@@ -128,21 +128,6 @@ namespace WindowsFormsApp1
                     break;
             }
             
-        }
-
-        private void lblTxtReference_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnAjouterLivre_Click(object sender, EventArgs e)
-        {
-
         }
 
         /// <summary>
