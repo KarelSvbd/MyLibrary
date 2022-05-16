@@ -112,7 +112,7 @@ Aujourd'hui je vais commencer à travailler sur la partie références. Ensuite,
 Le bug bloquant n'a pas été corrigé, après avoir passé une heure sur le problème, j'ai redirigé mon attention vers des tâches moins complexes pour la journée.
 
 ### 10.05.2022
-####Objectif
+#### Objectifs
 L'objectif d'aujourd'hui sera de résoudre le bug bloquant et de progresser sur les références des livres.
 #### Déroulement
 07h40 : Récupération des Références par livre
@@ -123,3 +123,16 @@ L'objectif d'aujourd'hui sera de résoudre le bug bloquant et de progresser sur 
 16h00 : Début modification des références musique
 #### Conclusion
 Au Final j'ai réussi à terminer le crud sur les références de types Musique. Cependant ce travail m'a prit plus de temps que prévu et les jours suivant je vais devoir me concentrer sur le crud des deux autres types de références
+
+### 16.05.2022
+#### Objectifs
+Aujourd'hui, l'objectif est de terminer la permière version stable de l'application. Pour ce faire, je dois terminer les références de type Livres. Étant bloqué à cette étapes depuis plusieurs jours, je vais recommancer cette étape depuis zéro.
+#### Déroulement
+07h40 : Début du travail sur les points d'entrées 
+07h50 : Ajout d'un livre dans la table livres
+08h00 : Récupération de l'id du dernier livre ajouté
+09h20 : L'utilisateur peut à présent envoyer des livres existants ou en créer de nouveaux et les mettre en tant que références
+15h10 : Les livres des références sont affiches dans la collection
+15h20 : L'application permet de supprimer les références livres
+#### Conclusion
+Avec l'approche de la fin du TPI, j'ai du adapter mon planning et faire plus de documentation que d0habitude. En résulte des progrès plus modéré que d'habitude.

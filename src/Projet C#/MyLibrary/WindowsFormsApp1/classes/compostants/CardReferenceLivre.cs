@@ -24,6 +24,12 @@ namespace MyLibrary
         private PictureBox _image;
         #endregion
 
+        public Livre ObjLivre
+        {
+            get { return _livre; }
+            set { _livre = value; }
+        }
+
         #region constructeurs
         /// <summary>
         /// Permet de créer une card de référence de type livre avec les données d'un livre
@@ -33,41 +39,55 @@ namespace MyLibrary
         /// <param name="frm">form où la card est affichée</param>
         public CardReferenceLivre(Livre livre, Reference reference, frmCollectionReferences frm) : base(reference, frm)
         {
-            _livre = livre;
-            _image = new PictureBox();
-            _image.Size = new Size(150, 70);
-            _image.BackColor = Color.LightBlue;
-            //_image.Image = Image.FromFile(imageLocation + livre.NomImage);
-            _image.SizeMode = PictureBoxSizeMode.StretchImage;
+            
+                _livre = livre;
+                _image = new PictureBox();
+                _image.Size = new Size(150, 70);
+                _image.BackColor = Color.LightBlue;
+                
+                try
+                {
+                _image.Image = Image.FromFile(_livre.NomImage);
+                _image.SizeMode = PictureBoxSizeMode.StretchImage;
 
-            Label lbltxtAuteur = new Label();
-            lbltxtAuteur.Text = "Auteur : ";
-            lbltxtAuteur.Location = new Point(Location.X + 2, Location.Y + 80);
-            Label lblAuteur = new Label();
-            lblAuteur.Text = _livre.Auteur;
-            lblAuteur.Location = new Point(Location.X + 2, Location.Y + 95);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
 
-            Label lbltxtTitre = new Label();
-            lbltxtTitre.Text = "Titre : ";
-            lbltxtTitre.Location = new Point(190, 5);
-            lbltxtTitre.Location = new Point(Location.X + 2, Location.Y + 120);
-            Label lblTitre = new Label();
-            lblTitre.Text = _livre.Titre;
+                Label lbltxtAuteur = new Label();
+                lbltxtAuteur.Text = "Auteur : ";
+                lbltxtAuteur.Location = new Point(Location.X + 2, Location.Y + 80);
+                Label lblAuteur = new Label();
+                lblAuteur.Text = _livre.Auteur;
+                lblAuteur.Location = new Point(Location.X + 2, Location.Y + 95);
+
+                Label lbltxtTitre = new Label();
+                lbltxtTitre.Text = "Titre : ";
+                lbltxtTitre.Location = new Point(190, 5);
+                lbltxtTitre.Location = new Point(Location.X + 2, Location.Y + 120);
+                Label lblTitre = new Label();
+                lblTitre.Text = _livre.Titre;
             lblTitre.Location = new Point(Location.X + 2, Location.Y + 135);
 
-            Controls.Add(_image);
-            Controls.Add(lblAuteur);
-            Controls.Add(lbltxtAuteur);
-            Controls.Add(lblTitre);
-            Controls.Add(lbltxtTitre);
+            _image.Click += ClickCard;
+            lbltxtAuteur.Click += ClickCard;
+            lblAuteur.Click += ClickCard;
+            lbltxtTitre.Click += ClickCard;
+            lblTitre.Click += ClickCard;
+
+
+
+                Controls.Add(_image);
+                Controls.Add(lblAuteur);
+                Controls.Add(lbltxtAuteur);
+                Controls.Add(lblTitre);
+                Controls.Add(lbltxtTitre);
+            
         }
 
-        public CardReferenceLivre(Utilisateur utilisateur, Reference referenceLivre, frmCollectionReferences frm) : this(ClientRest.Instance.LivreParIdLivre(utilisateur, referenceLivre.IdLivre)[0], referenceLivre, frm)
-        {
-            foreach(var lvr in ClientRest.Instance.LivreParIdLivre(utilisateur, referenceLivre.IdLivre)){
-                Console.WriteLine(lvr.IdLivre + " " + lvr.Auteur + " " + lvr.Titre);
-            }
-        }
+        public CardReferenceLivre(Utilisateur utilisateur, Reference referenceLivre, frmCollectionReferences frm) : this(ClientRest.Instance.LivreParIdLivre(utilisateur, referenceLivre.LivreReference), referenceLivre, frm) { }
         #endregion
 
         #region methodes

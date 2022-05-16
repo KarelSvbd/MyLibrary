@@ -28,6 +28,7 @@ namespace WindowsFormsApp1
         private List<Card> _cardsReferences;
         private List<Livre> _livres;
         private CardReference _cardSelectionne;
+        private frmCollectionLivres _frmCollectionLivres;
 
         //Référence ambigu 
         private List<MyLibrary.classes.Type> _types;
@@ -43,12 +44,13 @@ namespace WindowsFormsApp1
         /// </summary>
         /// <param name="livre"></param>
         /// <param name="utilisateur"></param>
-        public frmCollectionReferences(Livre livre, Utilisateur utilisateur)
+        public frmCollectionReferences(Livre livre, Utilisateur utilisateur, frmCollectionLivres frmCollectionLivres)
         {
             _livre = livre;
             _utilisateur = utilisateur;
             _references = new List<Reference>();
             _cardsReferences = new List<Card>();
+            _frmCollectionLivres = frmCollectionLivres;
 
             InitializeComponent();
             //Changement dynamique du nom de la form
@@ -57,6 +59,7 @@ namespace WindowsFormsApp1
             _clientRest = ClientRest.Instance;
             _types = _clientRest.TousTypes(_utilisateur);
             _livres = _clientRest.LivresParUtilisateur(_utilisateur);
+
             majCbxTypes(_types);
 
             cbxFiltreType.Items.Add("Tous");
@@ -69,9 +72,6 @@ namespace WindowsFormsApp1
             btnAjouter.Enabled = true;
             btnModifier.Enabled = true;
             btnSupprimer.Enabled = true;
-
-            
-
         }
 
         private void btnAjouter_Click(object sender, EventArgs e)
@@ -85,17 +85,23 @@ namespace WindowsFormsApp1
                     if (cbxLivre.SelectedIndex == 0)
                     {
                         //new ReferenceLivre(0)
-                        if (new Livre(0, tbxTitre.Text, tbxAuteur.Text, imageEnregistrer.Nom + imageEnregistrer.Extension, _utilisateur.IdUtilisateur).PostLivre(_utilisateur))
+                        Livre nouveauLivre = new Livre(0, tbxTitre.Text, tbxAuteur.Text, imageEnregistrer.Nom + imageEnregistrer.Extension, _utilisateur.IdUtilisateur);
+                        if (nouveauLivre.PostLivre(_utilisateur))
                         {
+                            
                             imageEnregistrer.SaveBmp();
+                            new ReferenceLivre(0, nouveauLivre.NomImage, _clientRest.DernierLivreUtilisateur(_utilisateur), _livre.IdLivre).PostReference(_utilisateur);
+                            _frmCollectionLivres.RefreshView();
+                            UpdateFormView();
                         }
                     }
                     else
                     {
-                        if (new ReferenceLivre(0, _livres[cbxLivre.SelectedIndex - 1].IdLivre, _livre.IdLivre).PostReference(_utilisateur))
+                        imageEnregistrer = new ImageInFile((Bitmap)pbxImage.Image);
+                        if (new ReferenceLivre(0, imageEnregistrer.Nom, _livres[cbxLivre.SelectedIndex - 1].IdLivre, _livre.IdLivre).PostReference(_utilisateur))
                         {
-                            Console.WriteLine(_livres[cbxLivre.SelectedIndex - 1].IdLivre + " " +_livre.IdLivre);
-                            MessageBox.Show("La référence à été ajoutée", "Référence Ajoutée", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            _frmCollectionLivres.RefreshView();
+                            MessageBox.Show("La référence et le livre ont été ajoutées", "Référence Ajoutée", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             UpdateFormView();
                         }
                         else
@@ -138,6 +144,7 @@ namespace WindowsFormsApp1
             //Mise à 0 des List
             _references.Clear();
             _cardsReferences.Clear();
+            cbxLivre.Items.Clear();
             flpReferences.Controls.Clear();
             //cbxFiltreType.SelectedIndex = 0;
 
@@ -327,6 +334,9 @@ namespace WindowsFormsApp1
             {
                 //Livre
                 case 1:
+                    tbxTitre.Text = card.ObjReference.NomReference;
+                    tbxAuteur.Text = card.ObjReference.Auteur;
+                    tbxDescription.Text = card.ObjReference.DescriptionLieu;
                     cbxType.SelectedIndex = 0;
                     break;
                 //Musique
@@ -357,15 +367,19 @@ namespace WindowsFormsApp1
 
         private void btnModifier_Click(object sender, EventArgs e)
         {
+            
+
             //new ReferenceMusique(0, "à ajouter", tbxTitre.Text, tbxAuteur.Text, ObjLivre.IdLivre).PutReference(_utilisateur, new ReferenceMusique(_cardSelectionne.ObjReference.IdReference,  "A Ajouter", tbxTitre.Text, tbxAuteur.Text,  _livre.IdLivre))
             switch (_cardSelectionne.ObjReference.IdType)
             {
                 case 1:
-
+                    ImageInFile imageEnregistrer = new ImageInFile((Bitmap)pbxImage.Image);
+                    imageEnregistrer.SaveBmp();
+                    new ReferenceLivre(_cardSelectionne.ObjReference.IdReference, imageEnregistrer.Nom + imageEnregistrer.Extension, _cardSelectionne.ObjReference.LivreReference, _cardSelectionne.ObjReference.IdLivre).PutLivre(_utilisateur, new Livre(_cardSelectionne.ObjReference.LivreReference, tbxTitre.Text, tbxAuteur.Text, imageEnregistrer.Nom + imageEnregistrer.Extension, 0));
                     break;
                 //Musique
                 case 2:
-                    ImageInFile imageEnregistrer = new ImageInFile((Bitmap)pbxImage.Image);
+                    imageEnregistrer = new ImageInFile((Bitmap)pbxImage.Image);
                     if (_cardSelectionne.ObjReference.PutReference(_utilisateur, new ReferenceMusique(0, imageEnregistrer.Nom + imageEnregistrer.Extension, tbxTitre.Text, tbxAuteur.Text, ObjLivre.IdLivre)))
                     {
                         imageEnregistrer.SaveBmp();

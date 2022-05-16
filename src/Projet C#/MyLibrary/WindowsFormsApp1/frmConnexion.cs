@@ -37,7 +37,6 @@ namespace MyLibrary
                     //Tentative de connexion à l'API
                     if (user.TestConnexion())
                     {
-                        user.RecuperationInfoUtiisateur();
                         //Affichage de la nouvelle form
                         frmCollectionLivres collectionLivres = new frmCollectionLivres(user, this);
                         collectionLivres.Show();

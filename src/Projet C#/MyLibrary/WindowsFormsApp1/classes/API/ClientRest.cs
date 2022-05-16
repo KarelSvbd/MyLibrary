@@ -121,11 +121,19 @@ namespace MyLibrary.classes
         public List<Livre> LivresParUtilisateur(Utilisateur utilisateur)
         {
             List<Livre> livres = new List<Livre>();
-            dynamic livresDynamic = DeserialiseJSON(ApiRequest("?email=" + utilisateur.Email + "&password=" + utilisateur.Password + "&table=livres", "GET"));
-            foreach(var element in livresDynamic)
+            try
             {
-                livres.Add(new Livre(Convert.ToInt32(element["idLivre"]), Convert.ToString(element["titre"]), Convert.ToString(element["auteur"]), Convert.ToString(element["nomImage"]), Convert.ToInt32(element["idUtilisateur"])));
+                dynamic livresDynamic = DeserialiseJSON(ApiRequest("?email=" + utilisateur.Email + "&password=" + utilisateur.Password + "&table=livres", "GET"));
+                foreach (var element in livresDynamic)
+                {
+                    livres.Add(new Livre(Convert.ToInt32(element["idLivre"]), Convert.ToString(element["titre"]), Convert.ToString(element["auteur"]), Convert.ToString(element["nomImage"]), Convert.ToInt32(element["idUtilisateur"])));
+                }
             }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            
             return livres;
         }
 
@@ -161,7 +169,7 @@ namespace MyLibrary.classes
                 switch (Convert.ToInt32(element["idType"]))
                 {
                     case 1:
-                        referencesParLivre.Add(new ReferenceLivre(Convert.ToInt32(element["idReference"]), Convert.ToInt32(element["livreReference"]), Convert.ToInt32(element["idLivre"])));
+                        referencesParLivre.Add(new ReferenceLivre(Convert.ToInt32(element["idReference"]), Convert.ToString(element["nomImage"]), Convert.ToInt32(element["livreReference"]), Convert.ToInt32(element["idLivre"])));
                         break;
                     case 2:
                         referencesParLivre.Add(new ReferenceMusique(Convert.ToInt32(element["idReference"]), Convert.ToString(element["nomImage"]), Convert.ToString(element["nomReference"]), Convert.ToString(element["auteur"]), Convert.ToInt32(element["idLivre"])));
@@ -183,16 +191,17 @@ namespace MyLibrary.classes
             return referencesParLivre;
         }
 
-        public List<Livre> LivreParIdLivre(Utilisateur utilisateur, int idLivre)
+        public Livre LivreParIdLivre(Utilisateur utilisateur, int idLivre)
         {
-            List<Livre> listLivre = new List<Livre>();
+            Console.WriteLine(idLivre.ToString());
             dynamic LivreDynamic = DeserialiseJSON(ApiRequest("?email=" + utilisateur.Email + "&password=" + utilisateur.Password + "&table=livres&idLivre="+idLivre.ToString()+"", "GET"));
-            foreach(var element in LivreDynamic)
-            {
-                listLivre.Add(new Livre(Convert.ToInt32(element["idLivre"]), Convert.ToString(element["titre"]), Convert.ToString(element["auteur"]), Convert.ToString(element["nomImage"]), Convert.ToInt32(element["idUtilisateur"])));
-            }
-            return listLivre;
-            //return new Livre(Convert.ToInt32(LivreDynamic["idLivre"]), Convert.ToString(LivreDynamic["titre"]), Convert.ToString(LivreDynamic["auteur"]), Convert.ToString(LivreDynamic["nomImage"]), Convert.ToInt32(LivreDynamic["idUtilisateur"]));
+            return new Livre(Convert.ToInt32(LivreDynamic["idLivre"]), Convert.ToString(LivreDynamic["titre"]), Convert.ToString(LivreDynamic["auteur"]), Convert.ToString(LivreDynamic["nomImage"]), Convert.ToInt32(LivreDynamic["idUtilisateur"]));
+            
+        }
+
+        public int DernierLivreUtilisateur(Utilisateur utilisateur)
+        {
+            return Convert.ToInt32(DeserialiseJSON(ApiRequest("?email=" + utilisateur.Email + "&password=" + utilisateur.Password + "&table=livres&tri=dernier", "GET")));
         }
     }
 }

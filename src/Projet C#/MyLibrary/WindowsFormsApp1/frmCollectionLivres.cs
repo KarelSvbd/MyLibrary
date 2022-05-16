@@ -130,7 +130,7 @@ namespace MyLibrary
         /// <summary>
         /// Permet de mettre à jour les données de l'application sans filtre
         /// </summary>
-        private void RefreshView()
+        public  void RefreshView()
         {
             //remise à zéro des listes
             flpListCard.Controls.Clear();
@@ -151,7 +151,7 @@ namespace MyLibrary
         /// Permet de mettre à jour les données de l'application avec un filtre
         /// </summary>
         /// <param name="recherche">Chaîne de caractères à rechercher dans l'auteur et le titre</param>
-        private void RefreshView(string recherche)
+        public void RefreshView(string recherche)
         {
             //remise à zéro des listes
             flpListCard.Controls.Clear();
@@ -316,7 +316,7 @@ namespace MyLibrary
         private bool VerificationInputs()
         {
             //Vérification des inputs
-            if(tbxAuteur.Text == "" || tbxRecherche.Text == "")
+            if(tbxAuteur.Text == "" && tbxRecherche.Text == "")
             {
                 return false;
             }
@@ -344,7 +344,7 @@ namespace MyLibrary
 
         public void AfficherReference(Livre livre)
         {
-            frmCollectionReferences collectionReferences = new frmCollectionReferences(livre, _utilisateur);
+            frmCollectionReferences collectionReferences = new frmCollectionReferences(livre, _utilisateur, this);
             collectionReferences.Show();
         }
 

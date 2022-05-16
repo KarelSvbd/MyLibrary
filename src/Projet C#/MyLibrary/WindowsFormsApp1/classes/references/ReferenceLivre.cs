@@ -21,7 +21,7 @@ namespace MyLibrary
         /// <param name="idReference">int(11)</param>
         /// <param name="livreReference">int(11)</param>
         /// <param name="idLivre">int(11)</param>
-        public ReferenceLivre(int idReference, int livreReference, int idLivre) : base(idReference, "", "", "", 1, livreReference, idLivre, "") { }
+        public ReferenceLivre(int idReference, string NomImage, int livreReference, int idLivre) : base(idReference, "", NomImage, "", 1, livreReference, idLivre, "") { }
 
         /// <summary>
         /// Permet d'envoyer une référence de type livre dans la table référence (clé étangères)
@@ -60,7 +60,26 @@ namespace MyLibrary
         /// </returns>
         public override bool PutReference(Utilisateur utilisateur, Reference reference)
         {
+
             return ClientRest.Instance.AppelSimple("?table=references&idReference=" + IdReference.ToString() + "&email=" + utilisateur.Email + "&password=" + utilisateur.Password + "&nomReference=" + reference.NomReference + "&auteur=" + reference.Auteur + "&nomImage=" + reference.NomImage + "&idLivre=" + reference.IdLivre + "&idType=" + reference.IdType + "", "PUT");
+        }
+
+        /// <summary>
+        /// Permet à l'utilisateur de modifier le livre de la class
+        /// </summary>
+        /// <param name="utilisateur">utilisateur qui modifie le livre (Prop : Email, Password)</param>
+        /// <param name="nouvellesDonnees">Objet livre avec les nouvelles informations</param>
+        /// <returns>True = code 201, False = erreur</returns>
+        public bool PutLivre(Utilisateur utilisateur, Livre nouvellesDonnees)
+        {
+            //Mise à jour des varaibles d'instances
+            string _auteur = nouvellesDonnees.Auteur;
+            string _titre = nouvellesDonnees.Titre;
+            string _nomImage = nouvellesDonnees.NomImage;
+            int _idLivre = nouvellesDonnees.IdLivre;
+
+
+            return ClientRest.Instance.AppelSimple("?email=" + utilisateur.Email + "&password=" + utilisateur.Password + "&titre=" + _titre + "&auteur=" + _auteur + "&nomImage=" + _nomImage + "&table=livres&idLivre=" + _idLivre + "", "PUT");
         }
     }
 }

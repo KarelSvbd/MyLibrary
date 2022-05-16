@@ -307,7 +307,6 @@ class MyLibrary
     public function ajouterReference(Reference $reference){
         //:nomReference, :nomImage, :auteur, :idType, :livreReference, :idUtilisateur
         error_log($this->_ajouterReference->execute(array(':nomReference' => $reference->getNomReference(), ':nomImage' => $reference->getNomImage(), ':auteur' => $reference->getAuteur(), ':idType' => $reference->getIdType(), ':livreReference' => $reference->getLivreReference(), ':resume' => $reference->getDescriptionLieu())));
-        var_dump($this->_ajouterReference->fetch());
     }
 
     //:nomReference, :nomImage, :auteur, :idLivre, :idType

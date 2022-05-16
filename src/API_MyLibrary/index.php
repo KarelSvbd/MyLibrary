@@ -129,9 +129,18 @@ if (isset($_GET["email"]) && $_GET["password"]) {
                             }else if(isset($_GET["idLivre"])){
                                 http_response_code(200);
                                 $response = array();
-                                 
-                                array_push($response, $mydatabase->rechercheLivreParIdLivre($_GET["idLivre"])->returnArrayForJSON());
-                            } 
+                                $response = $mydatabase->rechercheLivreParIdLivre($_GET["idLivre"])->returnArrayForJSON();
+                            }
+                            else if(isset($_GET["tri"])){
+                                http_response_code(200);
+                                switch($_GET["tri"]){
+                                    case "dernier":
+                                        http_response_code(201);
+                                        $response = array();
+                                        $response = $mydatabase->dernierLivreUtilisateur($mydatabase->recevoirUtilisateurParEmail($_GET["email"]))->getIdLivre();
+                                        break;
+                                }
+                            }
                             else {
                                 $user->setIdUtilisateur($mydatabase->recevoirUtilisateurParEmail($_GET["email"])->getIdUtilisateur());
                                 //var_dump($mydatabase->livresParUtilisateur($user));
@@ -148,6 +157,11 @@ if (isset($_GET["email"]) && $_GET["password"]) {
                             break;
                         case "references":
                             if ($mydatabase->statusConnexionUtilisateur($_GET["email"]) == 1) {
+
+                                if(isset($_GET["livres"])){
+                                    switch($_GET["dernierLivre"]){
+                                    }
+                                }
                                 if (isset($_GET["idLivre"])) {
                                     // <!> Ajout de la vérification si le livre appartient à l'utilisateur
                                    
@@ -197,6 +211,8 @@ if (isset($_GET["email"]) && $_GET["password"]) {
                             $mydatabase->ajouterLivre($livre);
                             http_response_code(201);
                             $response = $livre->returnArrayForJSON();
+                        }
+                        else{
                         }
                         break;
                     case 'references':
