@@ -1,4 +1,16 @@
-﻿namespace MyLibrary.classes
+﻿/* Projet   : MyLibrary - TPI 2022
+ * Version  : 0.8.1
+ * Date     : 16.05.2022
+ * 
+ * Auteur   : Karel V. Svoboda
+ * Classe   : I.DA-P4A
+ * 
+ * Class    : References.cs class
+ * Decs.    : Permet d'encapsuler la table References de la base de données
+ *            Sert également de class mère aux références livre, musique et lieu
+ */
+
+namespace MyLibrary.classes
 {
     public class Reference
     {
@@ -55,11 +67,23 @@
             set { _descriptionLieu = value; }
         }
 
-        
-        
+
+
         #endregion
 
         #region Constructeurs
+        /// <summary>
+        /// Permet d'encapsuler la table References de la base de données
+        /// Sert également de class mère aux références livre, musique et lieu
+        /// </summary>
+        /// <param name="idReference">int(11)</param>
+        /// <param name="nomReference">varchar(255)</param>
+        /// <param name="nomImage">varchar(255)</param>
+        /// <param name="auteur">varchar(100)</param>
+        /// <param name="idType">int(11)</param>
+        /// <param name="livreReference">int(11) livres, idLivres</param>
+        /// <param name="idLivre">int(11) livres, IdLivres </param>
+        /// <param name="descriptionLieu">mediumtext</param>
         public Reference(int idReference, string nomReference, string nomImage, string auteur, int idType, int livreReference, int idLivre, string descriptionLieu)
         {
             _idReference = idReference;
@@ -72,16 +96,35 @@
             _descriptionLieu = descriptionLieu;
         }
 
+        /// <summary>
+        /// Sert de modèles aux class enfants
+        /// Permet d'envoyer la référence à l'API
+        /// </summary>
+        /// <param name="utilisateur">Utilisateur qui envoie la référence</param>
+        /// <returns>Retourne forcément false si elle n'est pas override</returns>
         public virtual bool PostReference(Utilisateur utilisateur)
         {
             return false;
         }
 
+        /// <summary>
+        /// Sert de modèles aux class enfants
+        /// Permet de modifier la référence à l'API
+        /// </summary>
+        /// <param name="utilisateur">Utilisateur qui envoie la référence</param>
+        /// <param name="reference">nouvelles données de la référence</param>
+        /// <returns>Retourne forcément false si elle n'est pas override</returns>
         public virtual bool PutReference(Utilisateur utilisateur, Reference reference)
         {
             return false;
         }
 
+        /// <summary>
+        /// Sert de modèles aux class enfants
+        /// Permet de supprimer la référence à l'API
+        /// </summary>
+        /// <param name="utilisateur">Utilisateur qui supprime la référence</param>
+        /// <returns>Retourne forcément false si elle n'est pas override</returns>
         public virtual bool DeleteReference(Utilisateur utilisateur)
         {
             return ClientRest.Instance.AppelSimple("?table=references&email=" + utilisateur.Email + "&password=" + utilisateur.Password + "&idReference=" + _idReference + "", "DELETE");

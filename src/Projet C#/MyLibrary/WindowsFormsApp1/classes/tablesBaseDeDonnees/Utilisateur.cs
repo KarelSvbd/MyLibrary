@@ -1,20 +1,29 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿/* Projet   : MyLibrary - TPI 2022
+ * Version  : 0.8.1
+ * Date     : 16.05.2022
+ * 
+ * Auteur   : Karel V. Svoboda
+ * Classe   : I.DA-P4A
+ * 
+ * Class    : Type.cs class
+ * Decs.    : Permet d'encapsuler la table Utilisateurs de la base de données
+ */
 
 namespace MyLibrary.classes
 {
     public class Utilisateur
     {
-        private const int DEFAULT_IDUTILISATEUR = 0;
+        #region Variables d'instances
         private int _idUtilisateur;
         private string _email, _password;
         private ClientRest _clientRest;
+        #endregion
 
+        #region Constantes
+        private const int DEFAULT_IDUTILISATEUR = 0;
+        #endregion
+
+        #region Propriétées
         public int IdUtilisateur
         {
             get { return _idUtilisateur; }
@@ -32,7 +41,15 @@ namespace MyLibrary.classes
             get { return _password; }
             set { _password = value; }
         }
+        #endregion
 
+        #region Constructeurs
+        /// <summary>
+        /// Permet d'encapsuler la table Utilisateurs de la base de données
+        /// </summary>
+        /// <param name="idUtilisateur">int(11)</param>
+        /// <param name="email">varchar(255)</param>
+        /// <param name="password">varchar(255)</param>
         public Utilisateur(int idUtilisateur, string email, string password)
         {
             _clientRest = ClientRest.Instance;
@@ -41,29 +58,40 @@ namespace MyLibrary.classes
             _password = password;
         }
 
-        public Utilisateur(string email, string password) : this(DEFAULT_IDUTILISATEUR, email, password)
-        {
-            
-        }
+        /// <summary>
+        /// Permet d'encapsuler la table Utilisateurs de la base de données sans idUTilisateur
+        /// </summary>
+        /// <param name="email">varchar(255)</param>
+        /// <param name="password">varchar(255)</param>
+        public Utilisateur(string email, string password) : this(DEFAULT_IDUTILISATEUR, email, password){ }
+        #endregion
 
+        #region Methodes
+        /// <summary>
+        /// Permet de faire une tentative de connexion avec les données de la classe
+        /// </summary>
+        /// <returns>
+        /// true = code 200 (connexion ok et l'utilisateur est connecté dans la base)
+        /// false = erreur ou mauvaise données de connexion erronées
+        /// </returns>
         public bool TestConnexion()
         {
             return _clientRest.AppelSimple("?session=connexion&email=" + _email + "&password=" + _password + "", "get");
         }
-
-        public void Deconnexion()
+        
+        /// <summary>
+        /// Permet à l'utilisateur de se déconnecter 
+        /// L'UTILISATEUR DOIT SE RECONNECTER S'IL VEUT REFAIRE DES REQUÊTES à L'API
+        /// </summary>
+        /// <returns>
+        /// true = code 200 (déconnexion ok)
+        /// false = erreur
+        /// </returns>
+        public bool Deconnexion()
         {
-            _clientRest.AppelSimple("?session=deconnexion&email=" + _email + "&password=" + _password + "", "get");
+            return _clientRest.AppelSimple("?session=deconnexion&email=" + _email + "&password=" + _password + "", "get");
         }
 
-        public void RecuperationInfoUtiisateur()
-        {
-            //var result = _clientRest.ApiRequest("?session=info", "get");
-
-            /*foreach(var item in result)
-            {*/
-                //MessageBox.Show(result.ToString());
-            //}
-        }
+        #endregion
     }
 }

@@ -1,10 +1,17 @@
-﻿using MyLibrary.classes;
+﻿/* Projet   : MyLibrary - TPI 2022
+ * Version  : 0.8.1
+ * Date     : 16.05.2022
+ * 
+ * Auteur   : Karel V. Svoboda
+ * Classe   : I.DA-P4A
+ * 
+ * Class    : CardReferenceLieu.cs cardReference
+ * Decs.    : Permet de créer une card de référence de type lieu
+ */
+
+using MyLibrary.classes;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using WindowsFormsApp1;
 
@@ -12,6 +19,11 @@ namespace MyLibrary
 {
     public class CardReferenceLieu : CardReference
     {
+        /// <summary>
+        /// Permet de créer card de référence lieu
+        /// </summary>
+        /// <param name="reference"></param>
+        /// <param name="frm"></param>
         public CardReferenceLieu(Reference reference, frmCollectionReferences frm) : base(reference, frm)
         {
 
@@ -31,11 +43,13 @@ namespace MyLibrary
             lblDescription.Location = new Point(Location.X + 2, Location.Y + 95);
             lblDescription.Size = new Size(Size.Width - 2, Size.Height - 80);
             
+            //Ajout des événements de click
             lbltxtTitre.Click += ClickCard;
             lblTitre.Click += ClickCard;
             lblTxtDescription.Click += ClickCard;
             lblDescription.Click += ClickCard;
 
+            //ajout des éléments dans les controls de la card
             Controls.Add(lblTitre);
             Controls.Add(lbltxtTitre);
             Controls.Add(lblDescription);
