@@ -1,0 +1,1 @@
+var breadcrumbs=[['-1',"",""],['2',"MyLibrary Reference","topic_00000000000000FF.html"],['249',"WindowsFormsApp1 Namespace","topic_00000000000000AF.html"],['250',"frmCollectionReferences Class","topic_00000000000000B0.html"],['251',"frmCollectionReferences Constructor","topic_00000000000000BB.html"]];

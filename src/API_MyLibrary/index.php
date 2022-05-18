@@ -2,8 +2,8 @@
 /*  Projet  : API_MyLibrary
     Auteur  : Svoboda Karel Vilém
     Desc.   : API qui permet de gérer la base de données MyLibrary
-    Date    : 10.05.2022
-    Version : 0.6
+    Date    : 18.05.2022
+    Version : 1
 */
 
 //autorisation des sources externes
@@ -59,9 +59,6 @@ if (isset($_GET["email"]) && $_GET["password"]) {
                                     "400" => "Fausses données de connexion",
                                 );
                             }
-
-                            //Si l'utilisateur a renseigné les mauvais headers
-
                         }
                         //Si l'utilisateur essaie de se connecter malgré le fait qu'une session est déjà active
                         else {
@@ -74,34 +71,22 @@ if (isset($_GET["email"]) && $_GET["password"]) {
                         break;
                         //déconnexion de l'utilisateur
                     case "deconnexion":
-                        // <!> ajout de sécurité
                         if ($mydatabase->statusConnexionUtilisateur($_GET["email"]) == 1) {
                             $user = $mydatabase->recevoirUtilisateurParEmail($_GET["email"]);
                             $mydatabase->deconnexionUtilisateur($user);
 
-                            // <!> ajout de réponse
                             http_response_code(201);
                             $response = array(
                                 "201" => "l'utilisateur est déconnectée",
                             );
                         }
-
-
-                        break;
-                        //information à propos de la session
-                        //<!> A CORRIGER APRèS LA SUPPRESSION GéNéRALE DES SESSIONS
-                    case "info":
-                        if ($_SESSION['utilisateurActuel'] != null) {
-                            http_response_code(200);
-                            $response = unserialize($_SESSION['utilisateurActuel'])->returnArrayForJSON();
-                            break;
-                        } else {
+                        else{
                             http_response_code(401);
                             $response = array(
-                                "Aucune session n'est active"
+                                "401" => "L'utilisateur n'est pas connecté",
                             );
-                        }
-                        //Si le point d'entré est non traité
+                        }   
+                        break;
                     default:
                         $response = array(
                             "400" => "Point d'entrée inconnu",
@@ -113,14 +98,11 @@ if (isset($_GET["email"]) && $_GET["password"]) {
             //manipulation de la table livres
             if (isset($_GET["table"])) {
                 $user = new Utilisateur(0, $_GET["email"], $_GET["password"], 0);
-                //if ($mydatabase->testConnexion($user)) {
                 if ($mydatabase->statusConnexionUtilisateur($_GET["email"]) == 1) {
                     switch ($_GET["table"]) {
                         case "livres":
                             if (isset($_GET["recherche"])) {
                                 $user->setIdUtilisateur($mydatabase->recevoirUtilisateurParEmail($_GET["email"])->getIdUtilisateur());
-                                //var_dump($mydatabase->livresParUtilisateur($user));
-                                //récupération des livres en fonction de l'idUtilisateur
                                 http_response_code(200);
                                 $response = array();
                                 foreach ($mydatabase->rechercheLivreParAuteurOuTitre($user, $_GET["recherche"]) as $unLivre) {
@@ -143,7 +125,6 @@ if (isset($_GET["email"]) && $_GET["password"]) {
                             }
                             else {
                                 $user->setIdUtilisateur($mydatabase->recevoirUtilisateurParEmail($_GET["email"])->getIdUtilisateur());
-                                //var_dump($mydatabase->livresParUtilisateur($user));
                                 //récupération des livres en fonction de l'idUtilisateur
                                 http_response_code(200);
                                 $response = array();
@@ -153,18 +134,9 @@ if (isset($_GET["email"]) && $_GET["password"]) {
                             }
 
                             break;
-                        case "utilisateurs":
-                            break;
                         case "references":
                             if ($mydatabase->statusConnexionUtilisateur($_GET["email"]) == 1) {
-
-                                if(isset($_GET["livres"])){
-                                    switch($_GET["dernierLivre"]){
-                                    }
-                                }
                                 if (isset($_GET["idLivre"])) {
-                                    // <!> Ajout de la vérification si le livre appartient à l'utilisateur
-                                   
                                     http_response_code(200);
                                     $response = array();
                                     foreach($mydatabase->referencesParLivre(new Livre($_GET["idLivre"], "", "", "", 0)) as $reference){
@@ -191,11 +163,6 @@ if (isset($_GET["email"]) && $_GET["password"]) {
                         "Veuillez vous connecter pour poursuivre"
                     );
                 }
-                /*}
-                    http_response_code(403);
-                    $response = array(
-                        "les données de connexion sont fausses"
-                    );*/
             }
 
             break;
@@ -213,6 +180,9 @@ if (isset($_GET["email"]) && $_GET["password"]) {
                             $response = $livre->returnArrayForJSON();
                         }
                         else{
+                            $response = array(
+                                "401" => "Veuillez renseigner tous les points d'entrées",
+                            );
                         }
                         break;
                     case 'references':

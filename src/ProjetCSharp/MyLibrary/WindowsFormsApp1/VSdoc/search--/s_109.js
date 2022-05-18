@@ -1,0 +1,1 @@
+search_result['109']=["topic_000000000000002A.html","CardReferenceLivre(Livre, Reference, frmCollectionReferences) Constructor","Permet de créer une card de référence de type livre avec les données d\u0027un livre"];

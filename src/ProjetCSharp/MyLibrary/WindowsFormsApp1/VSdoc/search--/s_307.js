@@ -1,0 +1,1 @@
+search_result['307']=["topic_000000000000008C.html","frmCollectionLivres Constructor","Form de collection de livres\r\nAffiche les livres de l\u0027utilisateur dans une liste d\u0027objets.\r\nPermet de faire un CRUD sur les livres via un formulaire"];

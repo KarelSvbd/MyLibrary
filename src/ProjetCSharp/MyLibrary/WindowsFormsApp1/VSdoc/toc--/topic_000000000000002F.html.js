@@ -1,0 +1,1 @@
+var breadcrumbs=[['-1',"",""],['2',"MyLibrary Reference","topic_00000000000000FF.html"],['4',"MyLibrary Namespace","topic_0000000000000013.html"],['41',"CardReferenceMusique Class","topic_000000000000002D.html"],['42',"CardReferenceMusique Constructor","topic_000000000000002F.html"]];

@@ -1,0 +1,1 @@
+var breadcrumbs=[['-1',"",""],['2',"MyLibrary Reference","topic_00000000000000FF.html"],['4',"MyLibrary Namespace","topic_0000000000000013.html"],['86',"frmCollectionLivres Class","topic_0000000000000086.html"],['92',"Methods","topic_0000000000000086_methods--.html"],['110',"tbxRecherche_TextChanged Method","topic_000000000000009B.html"]];

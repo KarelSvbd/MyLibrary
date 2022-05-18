@@ -1,0 +1,1 @@
+var breadcrumbs=[['-1',"",""],['2',"MyLibrary Reference","topic_00000000000000FF.html"],['156',"MyLibrary.classes Namespace","topic_0000000000000000.html"],['163',"ClientRest Class","topic_0000000000000001.html"],['167',"Methods","topic_0000000000000001_methods--.html"],['170',"DernierLivreUtilisateur Method","topic_000000000000000E.html"]];

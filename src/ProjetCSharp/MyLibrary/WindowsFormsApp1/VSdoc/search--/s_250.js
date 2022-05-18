@@ -1,0 +1,1 @@
+search_result['250']=["topic_000000000000006C_overloads--.html","frmCollectionReferences.SelectionCard Method","Se déclache lorsqu\u0027une carte est séléctionnée\r\nSert à récupérer les données de la carte"];

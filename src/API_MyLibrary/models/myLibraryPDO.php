@@ -251,6 +251,10 @@ class MyLibrary
         return $arrayLivre;
     }
 
+    /** Permet de récupérer le dernier livre d'un utilisateur
+     * 
+     * @Utilisateur utilisateur
+     */
     public function dernierLivreUtilisateur(Utilisateur $utilisateur){
         $this->_dernierLivreUtilisateur->execute(array(':idUtilisateur' => $utilisateur->getIdUtilisateur()));
         $resultat = $this->_dernierLivreUtilisateur->fetchAll();
@@ -276,7 +280,7 @@ class MyLibrary
         }
         return $arrayLivre;
     }
-
+    
     public function tousTypes(){
         $this->_tousTypes->execute();
         $resultat = $this->_tousTypes->fetchAll();
@@ -305,16 +309,13 @@ class MyLibrary
     }
 
     public function ajouterReference(Reference $reference){
-        //:nomReference, :nomImage, :auteur, :idType, :livreReference, :idUtilisateur
         error_log($this->_ajouterReference->execute(array(':nomReference' => $reference->getNomReference(), ':nomImage' => $reference->getNomImage(), ':auteur' => $reference->getAuteur(), ':idType' => $reference->getIdType(), ':livreReference' => $reference->getLivreReference(), ':resume' => $reference->getDescriptionLieu())));
     }
 
-    //:nomReference, :nomImage, :auteur, :idLivre, :idType
     public function ajouterReferenceMusique(Reference $reference){
         $this->_ajouterReferenceMusique->execute(array(':nomReference' => $reference->getNomReference(), ':nomImage' => $reference->getNomImage(), ':auteur' => $reference->getAuteur(), ':idLivre' => $reference->getIdLivre(),  ':idType' => $reference->getIdType()));
     }
 
-    //private $_modifierReferenceMusique; private $_supprimerReferenceMusique;
     public function modifierReferenceMusique(Reference $reference){
         $this->_modifierReferenceMusique->execute(array(':idReference' => $reference->getIdReference(), ':nomReference' => $reference->getNomReference(), ':nomImage' => $reference->getNomImage(), ':auteur' => $reference->getAuteur(), ':idLivre' => $reference->getIdLivre(),  ':idType' => $reference->getIdType()));
     }
@@ -324,14 +325,11 @@ class MyLibrary
     }
 
     public function ajouterReferenceLivre(Reference $reference){
-        //$this->_ajouterReferenceLivre->execute(array(':livreReference' => $reference->getLivreReference(), ':idLivre' => $reference->getIdLivre(),  ':idType' => $reference->getIdType()));
         $this->_ajouterReferenceLivre->execute(array(':livreReference' => $reference->getLivreReference(), ':idLivre' => $reference->getIdLivre(),  ':idType' => $reference->getIdType()));
     }
 
-    //:nomReference, :descriptionLieu :idType, :idLivre
     public function ajouterReferenceLieu(Reference $reference){
         $this->_ajouterReferenceLieu->execute(array(':nomReference' => $reference->getNomReference(), ':descriptionLieu' => $reference->getDescriptionLieu(), ':idType' => $reference->getIdType(), ':idLivre' => $reference->getIdLivre()));
-        //$this->_ajouterReferenceLieu->execute(array(':nomReference' => "nom", ':descriptionLieu' => "description", ':idType' => 3, ':idLivre' => 1));
     }
 
     public function modifierReferenceLieu(Reference $reference){

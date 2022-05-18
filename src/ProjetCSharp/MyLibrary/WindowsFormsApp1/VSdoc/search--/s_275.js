@@ -1,0 +1,1 @@
+search_result['275']=["topic_0000000000000078.html","Type Constructor","Permet d\u0027encapsuler la table Types de la base de données"];

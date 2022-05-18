@@ -1,0 +1,1 @@
+search_result['311']=["topic_0000000000000090.html","frmCollectionLivres.btnAjouter_Click Method","Ajout d\u0027un livre\r\nSource du code de l\u0027importation de l\u0027image :\r\nhttps://www.codeproject.com/Questions/546631/howplustoplussavepluspictureboxplusimageplusinplus"];

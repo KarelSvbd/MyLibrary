@@ -1,0 +1,1 @@
+c['86']=[['87',"frmCollectionLivres Constructor","topic_000000000000008C.html",0],['88',"Properties","topic_0000000000000086_props--.html",1],['92',"Methods","topic_0000000000000086_methods--.html",1],['111',"Fields","topic_0000000000000086_vars--.html",1]];

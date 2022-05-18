@@ -1,0 +1,1 @@
+search_result['369']=["topic_00000000000000C2.html","frmCollectionReferences.SelectionCard (CardReference) Method","Se déclache lorsqu\u0027une carte est séléctionnée\r\nSert à récupérer les données de la carte"];

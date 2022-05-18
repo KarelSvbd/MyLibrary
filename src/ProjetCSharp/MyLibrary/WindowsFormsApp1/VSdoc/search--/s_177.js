@@ -1,0 +1,1 @@
+search_result['177']=["topic_0000000000000047.html","ReferenceLivre.PostReference Method","Permet d\u0027envoyer une référence de type livre dans la table référence (clé étangères)"];

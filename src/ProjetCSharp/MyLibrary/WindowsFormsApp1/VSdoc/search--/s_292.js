@@ -1,0 +1,1 @@
+search_result['292']=["topic_0000000000000083.html","Utilisateur(String, String) Constructor","Permet d\u0027encapsuler la table Utilisateurs de la base de données sans idUTilisateur"];
